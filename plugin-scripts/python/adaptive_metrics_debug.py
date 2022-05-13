@@ -97,9 +97,33 @@ def construct_elementarity_tree(target_ent_arr):
         for target_ent in target_ent_arr:
             if target_ent in direct_ent["called_funcs"]:
                 direct_ent["children"].append(target_ent)
-            #print(target_ent in direct_ent)
+
+    for direct_ent_1 in direct_called_func:
+        for direct_ent_2 in direct_called_func:
+            for i in range(0, len(direct_ent_2["children"])):
+                if direct_ent_1["ent"] == direct_ent_2["children"][i]:
+                    direct_ent_2["children"][i] = direct_ent_1
 
     return direct_called_func
+
+
+def print_elementarity_tree(elementarity_tree, depth):
+    for ent in elementarity_tree:
+        print(ent)
+        if ent["ent"] is not None:
+            print((" " * depth) + "ENTITY: " + ent["ent"].name())
+
+        for ent_child in ent["children"]:
+            print_elementarity_tree(ent_child, depth + 1)
+            # if ent_child["ent"]:
+            #     print((" " * depth) + "ENTITY: " + ent_child["ent"].name())
+
+
+
+
+
+
+
 
 
 target_ents = get_ent_array_from_names([
@@ -114,10 +138,8 @@ target_ents = get_ent_array_from_names([
 
 elementarity_tree = construct_elementarity_tree(target_ents)
 
-for ent in elementarity_tree:
-    print("ENTITY: " + ent["ent"].name())
-    for ent_child in ent["children"]:
-        print("   " + ent_child.name())
+print_elementarity_tree(elementarity_tree, 0)
+
 
 # summed = sum_metrics_from_ent_array(collected_names, "CountLineCode")
 #
