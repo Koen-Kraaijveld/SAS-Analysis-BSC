@@ -102,21 +102,28 @@ def construct_elementarity_tree(target_ent_arr):
         for direct_ent_2 in direct_called_func:
             for i in range(0, len(direct_ent_2["children"])):
                 if direct_ent_1["ent"] == direct_ent_2["children"][i]:
+                    # for direct_ent_temp in direct_called_func:
+                    #     if direct_ent_1 == direct_ent_temp:
+                    #         print(True)
                     direct_ent_2["children"][i] = direct_ent_1
 
     return direct_called_func
 
 
-def print_elementarity_tree(elementarity_tree, depth):
-    for ent in elementarity_tree:
-        print(ent)
-        if ent["ent"] is not None:
-            print((" " * depth) + "ENTITY: " + ent["ent"].name())
+def get_multiplied_spaces(amount):
+    total = ""
+    for i in range(0, amount):
+        total += " "
 
-        for ent_child in ent["children"]:
-            print_elementarity_tree(ent_child, depth + 1)
-            # if ent_child["ent"]:
-            #     print((" " * depth) + "ENTITY: " + ent_child["ent"].name())
+    return total
+
+
+def print_elementarity_tree(elementarity_tree, depth):
+    if elementarity_tree["ent"] is not None:
+        print((get_multiplied_spaces(depth * 3)) + "ENTITY: " + elementarity_tree["ent"].name())
+
+    for ent_child in elementarity_tree["children"]:
+        print_elementarity_tree(ent_child, depth + 1)
 
 
 
@@ -127,18 +134,19 @@ def print_elementarity_tree(elementarity_tree, depth):
 
 
 target_ents = get_ent_array_from_names([
-    "checkStatus",
     "flying",
     "returnToHome",
     "landing",
+    "checkStatus",
     "flyingRight",
     "flyingLeft",
-    "getCurrentPositionI"
+    "getCurrentPositionI",
+    "takeOff"
 ])
 
 elementarity_tree = construct_elementarity_tree(target_ents)
 
-print_elementarity_tree(elementarity_tree, 0)
+print_elementarity_tree(elementarity_tree[4], 0)
 
 
 # summed = sum_metrics_from_ent_array(collected_names, "CountLineCode")
