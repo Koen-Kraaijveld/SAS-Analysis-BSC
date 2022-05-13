@@ -56,11 +56,6 @@
     jni_kni_linkage_prepend_text="Java_"
     save_comments_associated_with_entities="true"
     version="Java5">
-    <class_paths>
-      <class_path
-        path="C:/Program Files/Eclipse Adoptium/jdk-17.0.2.8-hotspot/lib/src.zip"/>
-      <class_path
-        path="C:/Program Files/Eclipse Adoptium/jdk-17.0.2.8-hotspot/jmods/java.base.jmod"/>
-    </class_paths>
+    <class_paths/>
   </java_options>
 </project>

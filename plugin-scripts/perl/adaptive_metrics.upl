@@ -1,0 +1,84 @@
+use base ("Understand::IReport");
+use strict;
+# use Tie::RefHash;
+# tie my %files, 'Tie::RefHash';
+
+sub name { return "Adaptive Metrics Report"; }
+
+sub test_entity {
+	my $entity = shift;
+	return 1;	
+}
+
+sub test_architecture {
+    my $arch = shift;
+    return 1;
+}
+
+sub test_global {
+	return 1;
+}
+
+sub support_progress { 
+	return 1;
+}
+
+sub support_abort {
+	return 1;
+}
+
+our $abort_called;
+sub abort {
+	$abort_called = 1;
+}
+
+sub init {
+	my $report = shift;
+	$abort_called = 0;
+
+	# $report->option->choice("color","Pick your Favorite Color",["Red","Green","Blue"],"Red"); # create a choice option
+	# $report->option->file("file","choose file","abc"); # create a file choice option
+}
+
+sub generate {
+	my $report = shift;
+	my $ent = shift;
+
+	# for (keys %files) {
+	# 	delete $files{$_};
+	# }
+
+	$report->print("Adaptive Metrics Report\n");
+
+	if ($ent) {
+		generate_maintainibility_tree($report, $ent);
+	}
+
+	$report->print("\n");
+}
+
+sub generate_maintainibility_tree {
+	my $report = shift;
+	my $ent = shift;
+
+	$report->tree(1, 1);
+	$report->bold();
+	$report->print("Maintainability");
+
+	calculate_testability_func($report, $ent);
+}
+
+sub calculate_testability_func {
+	my $report = shift;
+	my $ent = shift;
+
+	$report->tree(2, 1);
+	$report->bold();
+	$report->print("Testability");
+
+	$report->tree(3, 1);
+	$report->nobold();
+	$report->print("Test Case Requirements: ");
+	$report->bold();
+	$report->print($ent->metric("CyclomaticStrict"));
+}

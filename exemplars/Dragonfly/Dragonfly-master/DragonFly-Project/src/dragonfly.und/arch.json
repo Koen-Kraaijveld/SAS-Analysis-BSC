@@ -1,0 +1,22 @@
+{
+    "ents": {
+        "@lmodel.entity.drone.DroneBusinessObject.checkStatus@kj1model.entity.drone.DroneBusinessObject.checkStatusmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
+            "Adaptive Strategies",
+            "Adaptive Loops"
+        ],
+        "@lmodel.entity.drone.DroneBusinessObject.flying@kj1model.entity.drone.DroneBusinessObject.flyingmodel.entity.drone.Drone,KeyCode@f./model/entity/drone/DroneBusinessObject.java": [
+            "Adaptive Strategies",
+            "Adaptive Strategies Hybrid"
+        ],
+        "@lmodel.entity.drone.DroneBusinessObject.landing@kj1model.entity.drone.DroneBusinessObject.landingmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
+            "Adaptive Strategies"
+        ],
+        "@lmodel.entity.drone.DroneBusinessObject.returnToHome@kj1model.entity.drone.DroneBusinessObject.returnToHomemodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
+            "Adaptive Strategies",
+            "Adaptive Strategies Hybrid"
+        ],
+        "@lmodel.entity.drone.DroneBusinessObject@kj4model.entity.drone.DroneBusinessObject@f./model/entity/drone/DroneBusinessObject.java": [
+            "Adaptive Strategies Hybrid"
+        ]
+    }
+}
