@@ -1,141 +1,249 @@
-# Dump entity/architecture data using the Understand API
-
 import understand
 import statistics
 
-global_report = None
-
-
-# FREETEXT_KEYS = [
-#     "AllowExceptions", "InitValue", "Inline", "Parameters", "Priority",
-#     "ThrowExceptions", "AttrArrayComponentSize", "AttrArrayIndexRanges",
-#     "AttrComponentFirstBit", "AttrComponentLastBit", "AttrComponentPosition",
-#     "AttrRecordAlignment", "AttrTypeSize", "InterruptPriority", "Bitfield",
-#     "Linkage", "DefinedInMacro", "UnderlyingType"
-# ]
-#
 
 def name():
     return "Python Adaptive Metrics"
 
 
-#
-# The following three functions determine when the report is available.
-# If ommitted, they're assumed false.
-#
 def test_global(db):
-    """
-  Optional method, return true for project level reports
-  """
     return True
 
 
 def test_entity(ent):
-    """
-  Optional method, return true if report is valid for the entity
-  """
     return True
 
 
 def test_architecture(arch):
-    """
-  Optional method, return true if report is valid for the architecture
-  """
     return True
 
 
-#
-# Optional methods to support abort
-#
 def support_abort():
-    """
-  Optional method, return True if this report can be aborted
-  """
     return False
 
 
 def abort():
-    """
-  Optional method, signal an abort has been requested
-  """
     pass
 
 
-# Progress
 def support_proress():
-    """
-  Optional method indicating if progress is reported
-
-  Report progress with the report.progress(val [,msg]) method.
-  """
-    return False
+    return True
 
 
-# Report Options
 def init(report):
     pass
 
 
-# Report generation
 def generate(report, target):
-    global_report = report
     starting_tree_depth = 1
 
     if isinstance(target, understand.Ent):
         method_generate_adaptive_metrics_report(report, target, starting_tree_depth)
     if isinstance(target, understand.Arch):
-        set_generate_adaptive_metrics_report(report, target, starting_tree_depth)
+        arch_generate_adaptive_metrics_report(report, target, starting_tree_depth)
 
     report.print("\n")
 
 
-# ====================  SET - ADAPTIVE METRICS REPORT  ==================== #
+# ====================  ARCHITECTURE - ADAPTIVE METRICS REPORT  ==================== #
 
-def set_generate_adaptive_metrics_report(report, set, tree_depth):
-    print_tree_title(report, "Adaptive Metrics Report (Set)", tree_depth)
-    set_generate_concentration_of_control_tree(report, set, tree_depth + 1)
-    set_calculate_elementarity_tree(report, set, tree_depth + 1)
+def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
+    print_tree_title(report, "Adaptive Metrics Report (Architecture)", tree_depth)
+    arch_generate_concentration_of_control_tree(report, arch, tree_depth + 1)
+
+    arch_contains_classes = False
+    for ent in arch.ents():
+        if is_class(ent):
+            arch_contains_classes = True
+            break
+
+    arch_calculate_elementarity_tree(report, arch, tree_depth + 1)
 
 
-def set_generate_concentration_of_control_tree(report, set, tree_depth):
+def arch_generate_concentration_of_control_tree(report, arch, tree_depth):
     print_tree_title(report, "Concentration of Control", tree_depth)
-    set_calculate_distribution_tree(report, set, tree_depth + 1)
+    arch_calculate_distribution_tree(report, arch, tree_depth + 1)
 
 
-def set_calculate_distribution_tree(report, set, tree_depth):
+def arch_calculate_distribution_tree(report, arch, tree_depth):
     print_tree_title(report, "Distribution", tree_depth)
 
-    set_children = set.ents()
+    arch_children = arch.ents()
+    ent_arr = []
     ent_global_control_arr = []
-    for ent in set_children:
-        ent_global_control_arr.append(calculate_global_control_for_method(report, ent))
 
-    summed_ent_global_control = sum(ent_global_control_arr)
+    for ent in arch_children:
+        global_control = calculate_global_control_for_method(report, ent)
+        ent_arr.append({
+            "ent": ent,
+            "control": global_control
+        })
+        ent_global_control_arr.append(global_control)
 
     report.tree(tree_depth + 1, 0)
     report.nobold()
-    report.print("Component Sphere of Influence Distribution")
+    print_line(report, "Component Global Control Distribution", tree_depth + 1, "Distribution among the adaptation "
+                                                                                "strategies based on the number of "
+                                                                                "executable statements that are "
+                                                                                "reachable across the entire system "
+                                                                                "from a given strategy")
 
-    for i in range(0, len(set_children)):
-        distribution = round(ent_global_control_arr[i] / summed_ent_global_control, 2)
-        print_mapped_ent_line(report, set_children[i], distribution, tree_depth + 2)
+    ent_arr = sorted(ent_arr, key=lambda d: d['control'], reverse=True)
+    summed_ent_global_control = sum(ent_global_control_arr)
 
-    print_mapped_line(report, "Control Array", ent_global_control_arr, tree_depth + 1)
-    print_mapped_line(report, "Variance", statistics.variance(ent_global_control_arr), tree_depth + 1)
+    for ent in ent_arr:
+        print_component_control(report, ent, summed_ent_global_control, tree_depth)
+
+    print_line(report, "Maximum", tree_depth + 1)
+    print_component_control(report, ent_arr[0], summed_ent_global_control, tree_depth)
+
+    print_line(report, "Minimum", tree_depth + 1)
+    print_component_control(report, ent_arr[len(ent_arr) - 1], summed_ent_global_control, tree_depth)
+
+    if len(ent_global_control_arr) >= 2:
+        variance = round(statistics.variance(ent_global_control_arr), 2)
+        print_mapped_line(report, "Variance", variance, tree_depth + 1)
+
+        stdev = round(statistics.stdev(ent_global_control_arr), 2)
+        print_mapped_line(report, "Std. dev.", stdev, tree_depth + 1)
 
 
-def set_calculate_elementarity_tree(report, set, tree_depth):
+def print_component_control(report, ent, summed_ent_global_control, tree_depth):
+    distribution = round(ent["control"] / summed_ent_global_control, 2)
+    print_ent_line(report, ent["ent"], tree_depth + 2)
+    print_mapped_line(report, "Relative", distribution, tree_depth + 3,
+                      "Relative: number of executable "
+                      "statements that are reachable across the"
+                      " entire system relative to the other "
+                      "components in the architecture")
+    print_mapped_line(report, "Absolute", ent["control"], tree_depth + 3,
+                      "Absolute: number of executable "
+                      "statements that are reachable across the"
+                      " entire system")
+
+
+def arch_calculate_elementarity_tree(report, arch, tree_depth):
     print_tree_title(report, "Elementarity", tree_depth)
+    grouped_ents = group_together_classes_and_methods(arch.ents())
+
+    elementarity_tree_method = construct_elementarity_tree(grouped_ents["methods"])
+    elementarity_tree_class = construct_elementarity_tree_class(grouped_ents["classes"])
+
+    if len(elementarity_tree_method) > 0:
+        print_line(report, "Method/Function", tree_depth + 1)
+        for i in range(0, len(elementarity_tree_method)):
+            print_elementarity_tree(report, elementarity_tree_method[i], tree_depth + 1)
+
+    if len(elementarity_tree_class) > 0:
+        print_line(report, "Class", tree_depth + 1)
+        for i in range(0, len(elementarity_tree_class["final"])):
+            print_line(report, f"Tree #{i+1}", tree_depth + 2)
+            print_elementarity_tree(report, elementarity_tree_class["final"][i], tree_depth + 2)
+
+        print_line(report, f"Miscellaneous", tree_depth + 2)
+        for i in range(0, len(elementarity_tree_class["misc"])):
+            print_elementarity_tree(report, elementarity_tree_class["misc"][i], tree_depth + 2)
+
+
+def print_elementarity_tree(report, tree, tree_depth):
+    print_ent_line(report, tree["ent"], tree_depth + 1)
+    for tree_child in tree["children"]:
+        print_elementarity_tree(report, tree_child, tree_depth + 1)
+
+
+def construct_elementarity_tree(target_ent_arr):
+    direct_called_func = []
+    for target_ent in target_ent_arr:
+        sub_called_func = {
+            "ent": target_ent,
+            "called_funcs": collect_called_func_names(target_ent, []),
+            "children": [],
+            "parent": None
+        }
+
+        direct_called_func.append(sub_called_func)
+
+    for direct_ent in direct_called_func:
+        for target_ent in target_ent_arr:
+            if target_ent in direct_ent["called_funcs"]:
+                direct_ent["children"].append(target_ent)
+
+    redundant_trees_tracker = []
+    for direct_ent_1 in direct_called_func:
+        redundant_trees_tracker.append(direct_ent_1)
+        for direct_ent_2 in direct_called_func:
+            for i in range(0, len(direct_ent_2["children"])):
+                if direct_ent_1["ent"] == direct_ent_2["children"][i]:
+                    direct_ent_2["children"][i] = direct_ent_1
+                    direct_ent_2["children"][i]["parent"] = direct_ent_2["ent"]
+
+    final_tree_arr = []
+    for dir_ent in direct_called_func:
+        if dir_ent["parent"] is None and len(dir_ent["children"]) != 0:
+            final_tree_arr.append(dir_ent)
+
+    return final_tree_arr
 
 
 # ====================  CLASS - ADAPTIVE METRICS REPORT  ==================== #
 
-# def class_generate_adaptive_metrics_report(report, target, tree_depth):
+def construct_elementarity_tree_class(ents):
+    classes = []
+    for ent in ents:
+
+        temp_ent_array = []
+        for temp_ent in ents:
+            temp_ent_array.append(temp_ent.ref().ent())
+
+        ent_dependsby_arr = []
+        for dependency in ent.dependsby().keys():
+            if dependency in ents:
+                ent_dependsby_arr.append({
+                    "ent": dependency.ref().ent(),
+                    "children": None,
+                    "parent": None,
+                    "is_in_final_tree": True,
+                })
+
+        classes.append({
+            "ent": ent.ref().ent(),
+            "children": ent_dependsby_arr,
+            "parent": None,
+            "is_in_final_tree": True,
+        })
+
+    for class_1 in classes:
+        for class_2 in classes:
+            for i in range(0, len(class_2["children"])):
+                if class_1["ent"] == class_2["children"][i]["ent"]:
+                    class_1["is_in_final_tree"] = False
+                    class_2["children"][i] = class_1
+                    class_2["children"][i]["parent"] = class_2["ent"]
+
+    final_tree_arr = {
+        "final": [],
+        "misc": []
+    }
+    for tree in classes:
+        if tree["is_in_final_tree"]:
+            if len(tree["children"]) <= 0:
+                final_tree_arr["misc"].append(tree)
+            else:
+                final_tree_arr["final"].append(tree)
+
+    return final_tree_arr
+
 
 # ====================  METHOD - ADAPTIVE METRICS REPORT  ==================== #
 
 def method_generate_adaptive_metrics_report(report, target, tree_depth):
-    print_tree_title(report, "Adaptive Metrics Report (Method)", tree_depth)
+    report_title = "Adaptive Metrics Report "
+    if is_class(target):
+        report_title += "(Entity --> Class)"
+    else:
+        report_title += "(Entity --> Function)"
+
+    print_tree_title(report, report_title, tree_depth)
 
     method_generate_locality_tree(report, target, tree_depth + 1)
     method_generate_maintainability_tree(report, target, tree_depth + 1)
@@ -216,9 +324,11 @@ def sum_metrics_from_ent_array(ent_array, metric_name):
 
 
 def calculate_local_control_for_method(report, ent):
+    starting_local_control = get_metric_from_name(ent, "CountStmtExe")
+
     if not is_class(ent):
         first_level_called_ent_names = collect_called_func_names(ent, [])
-        return sum_metrics_from_ent_array(first_level_called_ent_names, "CountStmtExe")
+        return starting_local_control + sum_metrics_from_ent_array(first_level_called_ent_names, "CountStmtExe")
     else:
         class_funcs = collect_defined_class_funcs(ent)
         class_func_called_arr = []
@@ -226,12 +336,13 @@ def calculate_local_control_for_method(report, ent):
             class_func_called_arr.append(class_func)
             collect_called_func_names(class_func, class_func_called_arr)
 
-        return sum_metrics_from_ent_array(class_func_called_arr, "CountStmtExe")
+        return starting_local_control + sum_metrics_from_ent_array(class_func_called_arr, "CountStmtExe")
 
 
 def calculate_global_control_for_method(report, ent):
+    starting_global_control = get_metric_from_name(ent, "CountStmtExe")
     total_called_ent_names = collect_total_called_ent_names(report, ent)
-    return sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
+    return starting_global_control + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
 
 
 def sum(array):
@@ -280,9 +391,16 @@ def collect_total_called_ent_names(report, ent):
 
     else:
         class_funcs = collect_defined_class_funcs(ent)
+
+        parent_class = find_parent_class(ent)
+        if parent_class is not None:
+            parent_class_funcs = collect_defined_class_funcs(parent_class.ent())
+            for func in parent_class_funcs:
+                if "Private" not in func.kindname().split(" "):
+                    class_funcs.append(func)
+
         class_func_called_arr = []
         for class_func in class_funcs:
-
             class_func_called_arr.append(class_func)
             called_funcs = collect_called_func_names(class_func, class_func_called_arr)
             for called_func in called_funcs:
@@ -291,9 +409,40 @@ def collect_total_called_ent_names(report, ent):
         return class_func_called_arr
 
 
+def find_parent_class(child_class):
+    dependencies = child_class.depends()
+    for target in sorted(dependencies.keys(), key=lambda target: target.longname()):
+        for ref in dependencies[target]:
+            ref_kind_split = ref.kind().longname().split(" ")
+            if "Extend" in ref_kind_split and not ref.file().library():
+                return ref
+
+
+def group_together_classes_and_methods(ents):
+    classes = []
+    methods = []
+
+    for ent in ents:
+        if is_class(ent):
+            classes.append(ent)
+        elif is_method(ent):
+
+            methods.append(ent)
+
+    return {
+        "classes": classes,
+        "methods": methods
+    }
+
+
 def is_class(ent):
     type_split = ent.kind().name().split()
-    return "Class" in type_split
+    return "Class" in type_split or "Interface" in type_split
+
+
+def is_method(ent):
+    type_split = ent.kind().name().split()
+    return "Method" in type_split or "Function" in type_split
 
 
 def print_line(report, line, tree_depth, hover_text=None):
