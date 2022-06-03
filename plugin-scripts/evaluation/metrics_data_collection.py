@@ -1,0 +1,587 @@
+import os
+os.add_dll_directory("C:\\Program Files\\SciTools\\bin\\pc-win64")
+
+import understand
+import statistics
+
+
+def generate(report, target):
+    starting_tree_depth = 1
+
+    if isinstance(target, understand.Ent):
+        method_generate_adaptive_metrics_report(report, target, starting_tree_depth)
+    if isinstance(target, understand.Arch):
+        arch_generate_adaptive_metrics_report(report, target, starting_tree_depth)
+        print_tree_title(report, "Adaptive Metric Reports", starting_tree_depth + 1)
+        for ent in target.ents():
+            print_ent_line(report, ent, starting_tree_depth + 2)
+            method_generate_locality_tree(report, ent, starting_tree_depth + 3, is_default_collapsed=0)
+            method_generate_maintainability_tree(report, ent, starting_tree_depth + 3)
+
+    report.print("\n")
+
+
+# ====================  ARCHITECTURE - ADAPTIVE METRICS REPORT  ==================== #
+
+def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
+    print_tree_title(report, "Adaptive Metrics Report (Architecture)", tree_depth)
+    arch_generate_concentration_of_control_tree(report, arch, tree_depth + 1)
+    arch_calculate_elementarity_tree(report, arch, tree_depth + 1)
+
+
+def arch_generate_concentration_of_control_tree(report, arch, tree_depth):
+    print_tree_title(report, "Concentration of Control", tree_depth, is_default_collapsed=1)
+    arch_calculate_decentralization_tree(report, arch, tree_depth + 1)
+
+
+def arch_calculate_decentralization_tree(report, arch, tree_depth):
+    print_tree_title(report, "Decentralization", tree_depth, is_default_collapsed=1)
+
+    arch_children = arch.ents()
+    ent_arr = []
+    ent_global_control_arr = []
+
+    for ent in arch_children:
+        global_control = calculate_global_control_for_method(report, ent)
+        ent_arr.append({
+            "ent": ent,
+            "control": global_control
+        })
+        ent_global_control_arr.append(global_control)
+
+    print_line(report, "Global Control Radius Spread", tree_depth + 1)
+
+    ent_arr = sorted(ent_arr, key=lambda d: d['control'], reverse=True)
+    summed_ent_global_control = sum(ent_global_control_arr)
+
+    for ent in ent_arr:
+        print_component_control(report, ent, summed_ent_global_control, tree_depth)
+
+    arch_calculate_control_decentralization_statistics(report, ent_arr, ent_global_control_arr,
+                                                       summed_ent_global_control, tree_depth)
+
+
+def arch_calculate_control_decentralization_statistics(report, ent_arr, ent_global_control_arr,
+                                                       summed_ent_global_control, tree_depth):
+    print_line(report, "Global Control Radius Statistics", tree_depth + 1, is_default_collapsed=1)
+
+    tree_depth += 1
+    print_line(report, "Maximum", tree_depth + 1,
+               hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Maximum"], is_default_collapsed=1)
+    print_component_control(report, ent_arr[0], summed_ent_global_control, tree_depth)
+
+    print_line(report, "Minimum", tree_depth + 1,
+               hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Minimum"])
+    print_component_control(report, ent_arr[len(ent_arr) - 1], summed_ent_global_control, tree_depth)
+
+    if len(ent_global_control_arr) >= 2:
+        variance = round(statistics.variance(ent_global_control_arr), 2)
+        print_mapped_line(report, "Variance", variance, tree_depth + 1,
+                          hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Variance"])
+
+        stdev = round(statistics.stdev(ent_global_control_arr), 2)
+        print_mapped_line(report, "Standard deviation", stdev, tree_depth + 1,
+                          hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["StandardDeviation"])
+
+
+def print_component_control(report, ent, summed_ent_global_control, tree_depth):
+    spread = round(ent["control"] / summed_ent_global_control, 2)
+    print_ent_line(report, ent["ent"], tree_depth + 2)
+    print_mapped_line(report, "Relative", spread, tree_depth + 3,
+                      METRIC_DESCRIPTION["Decentralization"]["Spread"]["Relative"], is_default_collapsed=1)
+    print_mapped_line(report, "Absolute", ent["control"], tree_depth + 3,
+                      METRIC_DESCRIPTION["Decentralization"]["Spread"]["Absolute"])
+
+
+def arch_calculate_elementarity_tree(report, arch, tree_depth):
+    print_tree_title(report, "Elementarity", tree_depth, is_default_collapsed=1)
+    grouped_ents = group_together_classes_and_methods(arch.ents())
+
+    elementarity_tree_method = construct_elementarity_tree(grouped_ents["methods"])
+    elementarity_tree_class = construct_elementarity_tree_class(grouped_ents["classes"])
+
+    print_line(report, "Tree", tree_depth + 1, hover_text=METRIC_DESCRIPTION["Elementarity"]["Tree"],
+               is_default_collapsed=1)
+    tree_depth += 1
+
+    if len(elementarity_tree_method["final"]) > 0 or len(elementarity_tree_method["misc"]) > 0:
+        print_line(report, f"Method/Function", tree_depth + 1, is_default_collapsed=1)
+        for i in range(0, len(elementarity_tree_method["final"])):
+            print_line(report, f"Tree #{i + 1}", tree_depth + 2)
+            print_elementarity_tree(report, elementarity_tree_method["final"][i], tree_depth + 2)
+            print_line(report, "Information", tree_depth + 3)
+            calculate_elementarity_tree_info(report, elementarity_tree_method["final"][i], tree_depth + 3)
+
+        if len(elementarity_tree_method["misc"]) > 0:
+            print_line(report, f"Miscellaneous", tree_depth + 2)
+            for i in range(0, len(elementarity_tree_method["misc"])):
+                print_elementarity_tree(report, elementarity_tree_method["misc"][i], tree_depth + 2)
+
+    if len(elementarity_tree_class["final"]) > 0 or len(elementarity_tree_class["misc"]) > 0:
+        print_line(report, f"Class", tree_depth + 1, is_default_collapsed=1)
+        for i in range(0, len(elementarity_tree_class["final"])):
+            print_line(report, f"Tree #{i + 1}", tree_depth + 2)
+            print_elementarity_tree(report, elementarity_tree_class["final"][i], tree_depth + 2)
+            print_line(report, "Information", tree_depth + 3)
+            calculate_elementarity_tree_info(report, elementarity_tree_class["final"][i], tree_depth + 3)
+
+        if len(elementarity_tree_class["misc"]) > 0:
+            print_line(report, f"Miscellaneous", tree_depth + 2)
+            for i in range(0, len(elementarity_tree_class["misc"])):
+                print_elementarity_tree(report, elementarity_tree_class["misc"][i], tree_depth + 2)
+
+
+def calculate_elementarity_tree_info(report, elementarity_tree, tree_depth):
+    elementarity_tree_info = count_dependencies(elementarity_tree, 0, [])
+    tree_dependencies_info = sorted(elementarity_tree_info, key=lambda d: d['Depends on'])
+
+    for dependency in tree_dependencies_info:
+        print_ent_line(report, dependency["ent"], tree_depth + 1)
+        print_mapped_line(report, "Depends On", dependency["Depends on"], tree_depth + 2,
+                          hover_text=METRIC_DESCRIPTION["Elementarity"]["Information"]["DependsOn"],
+                          is_default_collapsed=1)
+        print_mapped_line(report, "Depended On By", dependency["Depended by"], tree_depth + 2,
+                          hover_text=METRIC_DESCRIPTION["Elementarity"]["Information"]["DependedOnBy"],
+                          is_default_collapsed=1)
+
+
+def print_elementarity_tree(report, tree, tree_depth):
+    print_ent_line(report, tree["ent"], tree_depth + 1)
+    for tree_child in tree["children"]:
+        print_elementarity_tree(report, tree_child, tree_depth + 1)
+
+
+def construct_elementarity_tree(target_ent_arr):
+    direct_called_func = []
+    for target_ent in target_ent_arr:
+        sub_called_func = {
+            "ent": target_ent,
+            "called_funcs": collect_called_func_names(target_ent, []),
+            "children": [],
+            "parent": None,
+            "is_in_final_tree": True
+        }
+
+        direct_called_func.append(sub_called_func)
+
+    for direct_ent in direct_called_func:
+        for target_ent in target_ent_arr:
+            if target_ent in direct_ent["called_funcs"]:
+                direct_ent["children"].append(target_ent)
+
+    for direct_ent_1 in direct_called_func:
+        for direct_ent_2 in direct_called_func:
+            for i in range(0, len(direct_ent_2["children"])):
+                if direct_ent_1["ent"] == direct_ent_2["children"][i]:
+                    direct_ent_1["is_in_final_tree"] = False
+                    direct_ent_2["children"][i] = direct_ent_1
+                    direct_ent_2["children"][i]["parent"] = direct_ent_2["ent"]
+
+    final_tree_arr = {
+        "final": [],
+        "misc": []
+    }
+    for tree in direct_called_func:
+        if tree["is_in_final_tree"]:
+            if len(tree["children"]) <= 0:
+                final_tree_arr["misc"].append(tree)
+            else:
+                final_tree_arr["final"].append(tree)
+
+    return final_tree_arr
+
+
+# ====================  CLASS - ADAPTIVE METRICS REPORT  ==================== #
+
+def construct_elementarity_tree_class(ents):
+    classes = []
+    for ent in ents:
+
+        temp_ent_array = []
+        for temp_ent in ents:
+            temp_ent_array.append(temp_ent.ref().ent())
+
+        ent_dependsby_arr = []
+        for dependency in ent.dependsby().keys():
+            if dependency in ents:
+                ent_dependsby_arr.append({
+                    "ent": dependency.ref().ent(),
+                    "children": None,
+                    "parent": None,
+                    "is_in_final_tree": True,
+                })
+
+        classes.append({
+            "ent": ent.ref().ent(),
+            "children": ent_dependsby_arr,
+            "parent": None,
+            "is_in_final_tree": True,
+        })
+
+    for class_1 in classes:
+        for class_2 in classes:
+            for i in range(0, len(class_2["children"])):
+                if class_1["ent"] == class_2["children"][i]["ent"]:
+                    class_1["is_in_final_tree"] = False
+                    class_2["children"][i] = class_1
+                    class_2["children"][i]["parent"] = class_2["ent"]
+
+    final_tree_arr = {
+        "final": [],
+        "misc": []
+    }
+    for tree in classes:
+        if tree["is_in_final_tree"]:
+            if len(tree["children"]) <= 0:
+                final_tree_arr["misc"].append(tree)
+            else:
+                final_tree_arr["final"].append(tree)
+
+    return final_tree_arr
+
+
+# ====================  METHOD - ADAPTIVE METRICS REPORT  ==================== #
+
+def method_generate_adaptive_metrics_report(report, target, tree_depth):
+    report_title = f"Adaptive Metrics Report"
+    print_tree_title(report, report_title, tree_depth)
+
+    report.tree(tree_depth + 1)
+    report.entity(target)
+    report.print(target.name())
+    report.entity()
+    report.print(f" - {target.kindname()}")
+
+    method_generate_locality_tree(report, target, tree_depth + 1, is_default_collapsed=1)
+    method_generate_maintainability_tree(report, target, tree_depth + 1)
+
+
+def method_generate_maintainability_tree(report, ent, tree_depth):
+    print_tree_title(report, "Maintainability", tree_depth)
+    method_calculate_testability(report, ent, tree_depth + 1)
+
+    if is_class(ent):
+        method_calculate_modifiability(report, ent, tree_depth + 1)
+
+
+def method_calculate_testability(report, ent, tree_depth):
+    print_tree_title(report, "Testability", tree_depth)
+
+    complexity_type = []
+    if is_class(ent):
+        complexity_type.append("SumCyclomatic")
+        complexity_type.append("SumCyclomaticStrict")
+    else:
+        complexity_type.append("Cyclomatic")
+        complexity_type.append("CyclomaticStrict")
+
+    test_case_min = get_metric_from_name(ent, complexity_type[0])
+    test_case_max = get_metric_from_name(ent, complexity_type[1])
+    print_mapped_line(report, "Cyclomatic Complexity", test_case_min, tree_depth + 1,
+                      METRIC_DESCRIPTION["Testability"]["Cyclomatic"], is_default_collapsed=1)
+    print_mapped_line(report, "Strict Cyclomatic Complexity", test_case_max, tree_depth + 1,
+                      METRIC_DESCRIPTION["Testability"]["StrictCyclomatic"], is_default_collapsed=1)
+
+
+def method_calculate_modifiability(report, ent, tree_depth):
+    print_tree_title(report, "Modifiability", tree_depth, is_default_collapsed=1)
+
+    coupling = get_metric_from_name(ent, "CountClassCoupled")
+    print_mapped_line(report, "Coupling", coupling, tree_depth + 1,
+                      METRIC_DESCRIPTION["Modifiability"]["Coupling"], is_default_collapsed=1)
+
+    cohesion = get_metric_from_name(ent, "PercentLackOfCohesion")
+    print_mapped_line(report, "Lack of Cohesion", str(cohesion) + "%", tree_depth + 1,
+                      METRIC_DESCRIPTION["Modifiability"]["LackOfCohesion"], is_default_collapsed=1)
+
+
+def method_generate_locality_tree(report, ent, tree_depth, is_default_collapsed=0):
+    print_tree_title(report, "Locality", tree_depth, is_default_collapsed=is_default_collapsed)
+    method_calculate_control_radius(report, ent, tree_depth + 1)
+
+
+def method_calculate_control_radius(report, ent, tree_depth):
+    print_tree_title(report, "Control Radius", tree_depth, is_default_collapsed=1)
+
+    local_control = calculate_local_control_for_method(report, ent)
+    print_mapped_line(report, "Local", local_control, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["ControlRadius"]["Local"], is_default_collapsed=1)
+
+    global_control = calculate_global_control_for_method(report, ent)
+    print_mapped_line(report, "Global", global_control, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["ControlRadius"]["Global"], is_default_collapsed=1)
+
+
+# ===============================  UTILITIES  =============================== #
+
+def get_metric_from_name(ent, name):
+    metric = ent.metric((name,))
+    return metric[name]
+
+
+def sum_metrics_from_ent_array(ent_array, metric_name):
+    total = 0
+    for ent in ent_array:
+        metric_val = get_metric_from_name(ent, metric_name)
+        if metric_val is not None:
+            total += metric_val
+
+    return total
+
+
+def calculate_local_control_for_method(report, ent):
+    starting_local_control = get_metric_from_name(ent, "CountStmtExe")
+
+    if not is_class(ent):
+        first_level_called_ent_names = collect_called_func_names(ent, [])
+        return starting_local_control + sum_metrics_from_ent_array(first_level_called_ent_names, "CountStmtExe")
+    else:
+        class_funcs = collect_defined_class_funcs(ent)
+
+        parent_class = find_parent_class(ent)
+        if parent_class is not None:
+            parent_class_funcs = collect_defined_class_funcs(parent_class.ent())
+            for func in parent_class_funcs:
+                if "Private" not in func.kindname().split(" "):
+                    class_funcs.append(func)
+
+        class_func_called_arr = []
+        for class_func in class_funcs:
+            class_func_called_arr.append(class_func)
+            collect_called_func_names(class_func, class_func_called_arr)
+
+        return starting_local_control + sum_metrics_from_ent_array(class_func_called_arr, "CountStmtExe")
+
+
+def calculate_global_control_for_method(report, ent):
+    starting_global_control = get_metric_from_name(ent, "CountStmtExe")
+    total_called_ent_names = collect_total_called_ent_names(report, ent)
+    return starting_global_control + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
+
+
+def sum(array):
+    total = 0
+    for n in array:
+        total += n
+
+    return total
+
+
+def collect_defined_class_funcs(class_name):
+    defined_class_funcs = []
+
+    if refs := class_name.refs():
+        for ref in refs:
+            kind = ref.kind().longname()
+            ref_kind_split = kind.split()
+            if ("Define" in ref_kind_split) and (ref.ent() not in defined_class_funcs):
+                defined_class_funcs.append(ref.ent())
+
+    return defined_class_funcs
+
+
+def collect_called_func_names(ent, called_func_names_arr):
+    if refs := ent.refs():
+        for ref in refs:
+            kind = ref.kind().longname()
+            ref_kind_split = kind.split()
+            ent_kind_split = ref.ent().kind().longname().split()
+
+            if ("Call" in ref_kind_split) and (
+                    "Method" in ent_kind_split or "Function" in ent_kind_split) and ref.ent() not in called_func_names_arr:
+                called_func_names_arr.append(ref.ent())
+
+    return called_func_names_arr
+
+
+def collect_total_called_ent_names(report, ent):
+    if not is_class(ent):
+
+        total_called_ent_names = collect_called_func_names(ent, [])
+        for ent in total_called_ent_names:
+            collect_called_func_names(ent, total_called_ent_names)
+
+        return total_called_ent_names
+
+    else:
+        class_funcs = collect_defined_class_funcs(ent)
+
+        parent_class = find_parent_class(ent)
+        if parent_class is not None:
+            parent_class_funcs = collect_defined_class_funcs(parent_class.ent())
+            for func in parent_class_funcs:
+                if "Private" not in func.kindname().split(" "):
+                    class_funcs.append(func)
+
+        class_func_called_arr = []
+        for class_func in class_funcs:
+            class_func_called_arr.append(class_func)
+            called_funcs = collect_called_func_names(class_func, class_func_called_arr)
+            for called_func in called_funcs:
+                collect_called_func_names(called_func, class_func_called_arr)
+
+        return class_func_called_arr
+
+
+def count_dependencies(tree, depends_on_count, dependencies_info):
+    if len(tree["children"]) > 0:
+        depended_by_count = calculate_total_nodes(tree, 0)
+    else:
+        depended_by_count = 0
+
+    dependency_info = {
+        "ent": tree["ent"],
+        "Depends on": depends_on_count,
+        "Depended by": depended_by_count
+    }
+
+    depends_on_count += 1
+
+    for ent_child in tree["children"]:
+        count_dependencies(ent_child, depends_on_count, dependencies_info)
+
+    dependencies_info.append(dependency_info)
+
+    return dependencies_info
+
+
+def find_parent_class(child_class):
+    dependencies = child_class.depends()
+    for target in sorted(dependencies.keys(), key=lambda target: target.longname()):
+        for ref in dependencies[target]:
+            ref_kind_split = ref.kind().longname().split(" ")
+            if "Extend" in ref_kind_split and not ref.file().library():
+                return ref
+
+
+def calculate_total_nodes(tree, count):
+    count = len(tree["children"])
+    for child in tree["children"]:
+        count += calculate_total_nodes(child, count)
+
+    return count
+
+
+def group_together_classes_and_methods(ents):
+    classes = []
+    methods = []
+
+    for ent in ents:
+        if is_class(ent):
+            classes.append(ent)
+        elif is_method(ent):
+
+            methods.append(ent)
+
+    return {
+        "classes": classes,
+        "methods": methods
+    }
+
+
+def is_class(ent):
+    type_split = ent.kind().name().split()
+    return "Class" in type_split or "Interface" in type_split
+
+
+def is_method(ent):
+    type_split = ent.kind().name().split()
+    return "Method" in type_split or "Function" in type_split
+
+
+def print_line(report, line, tree_depth, hover_text=None, is_default_collapsed=0):
+    pass
+
+
+def print_mapped_line(report, name, value, tree_depth, hover_text=None, is_default_collapsed=0):
+    name = value
+
+
+def print_mapped_ent_line(report, ent, value, tree_depth, hover_text=None, is_default_collapsed=0):
+    ent = value
+
+
+def print_debug_line(report, debug_info):
+    pass
+
+
+def print_tree_title(report, tree_name, tree_depth, is_default_collapsed=0):
+    pass
+
+
+def print_ent_line(report, ent, tree_depth, is_default_collapsed=0):
+    pass
+
+
+METRIC_DESCRIPTION = {
+    "ControlRadius": {
+        "Local": "Number of directly reachable executable statements",
+        "Global": "Number of reachable (direct or indirect) executable statements across the entire system"
+    },
+    "Testability": {
+        "Cyclomatic": "Number of linearly independent paths through an entity’s control flow graph",
+        "StrictCyclomatic": "Number of linearly independent paths through an entity’s control flow graph, including "
+                            "permutations of conditional logical expressions "
+    },
+    "Modifiability": {
+        "Coupling": "Number of other classes coupled to",
+        "LackOfCohesion": "The percentage of class methods that do not use a class variable instance"
+    },
+    "Decentralization": {
+        "Spread": {
+            "Relative": "The Global Control Radius relative to all other classes and functions in the same architecture",
+            "Absolute": "The Global Control Radius of a class or function in the architecture"
+        },
+        "Statistics": {
+            "Maximum": "The class or function with the maximum Absolute Global Control Radius",
+            "Minimum": "The class or function with the minimum Absolute Global Control Radius",
+            "Variance": "The variance of the architecture based on the contained class or function Global Control "
+                        "Radius",
+            "StandardDeviation": "The standard deviation of the architecture based on the contained class or "
+                                  "function Global Control Radius "
+        }
+    },
+    "Elementarity": {
+        "Tree": "Tree data structure that shows the dependency relations between each class or function contained in "
+                "the architecture ",
+        "Information": {
+            "DependsOn": "The number of classes of methods that a given class or function depends on",
+            "DependedOnBy": "The number of classes of methods that a given class or function is depended on by"
+        }
+    }
+
+}
+
+data = {
+    "ConcentrationOfControl": {
+        "Decentralization": {
+            "Spread": None,
+            "Statistics": None
+        }
+    },
+    "Elementarity": {
+        "Tree": {
+            "Function": None,
+            "Class": None
+        }
+    },
+    "Adaptive Metrics Report": {
+        "Locality": {
+            "ControlRadius": {
+                "Local": None,
+                "Global": None
+            }
+        },
+        "Maintainability": {
+            "Testability": {
+                "Cyclomatic": None,
+                "StrictCyclomatic": None
+            },
+            "Modifiability": {
+                "Cohesion": None,
+                "LackOfCohesion": None
+            }
+        }
+
+    }
+}

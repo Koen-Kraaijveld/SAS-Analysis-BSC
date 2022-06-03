@@ -1,58 +1,22 @@
 {
     "ents": {
-        "@ladasim.TrafficMain@kj4adasim.TrafficMain@f./adasim/TrafficMain.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
         "@ladasim.algorithm.routing.AbstractRoutingAlgorithm@kj4adasim.algorithm.routing.AbstractRoutingAlgorithm@f./adasim/algorithm/routing/AbstractRoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.AdaptiveRoutingAlgorithm@kj4adasim.algorithm.routing.AdaptiveRoutingAlgorithm@f./adasim/algorithm/routing/AdaptiveRoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.AlwaysRecomputeRoutingAlgorithm@kj4adasim.algorithm.routing.AlwaysRecomputeRoutingAlgorithm@f./adasim/algorithm/routing/AlwaysRecomputeRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.dijkstra@kj1adasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.dijkstraList,adasim.model.RoadSegment,adasim.model.RoadSegment,int@f./adasim/algorithm/routing/LookaheadShortestPathRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.getIndex@kj1adasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.getIndexList,adasim.model.RoadSegment@f./adasim/algorithm/routing/LookaheadShortestPathRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.getIndexOfMin@kj1adasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm.getIndexOfMinSet,int[]@f./adasim/algorithm/routing/LookaheadShortestPathRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm@kj4adasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm@f./adasim/algorithm/routing/LookaheadShortestPathRoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.QLearningRoutingAlgorithm@kj4adasim.algorithm.routing.QLearningRoutingAlgorithm@f./adasim/algorithm/routing/QLearningRoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.RandomRoutingAlgorithm@kj4adasim.algorithm.routing.RandomRoutingAlgorithm@f./adasim/algorithm/routing/RandomRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.RoutingAlgorithm@kj4adasim.algorithm.routing.RoutingAlgorithm@f./adasim/algorithm/routing/RoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.algorithm.routing.ShortestPathRoutingAlgorithm@kj4adasim.algorithm.routing.ShortestPathRoutingAlgorithm@f./adasim/algorithm/routing/ShortestPathRoutingAlgorithm.java": [
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.TrafficLookaheadRoutingAlgorithm@kj4adasim.algorithm.routing.TrafficLookaheadRoutingAlgorithm@f./adasim/algorithm/routing/TrafficLookaheadRoutingAlgorithm.java": [
-            "Adaptive Strategies (Class)",
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.filter.AdasimFilter@kj4adasim.filter.AdasimFilter@f./adasim/filter/AdasimFilter.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.filter.IdentityFilter@kj4adasim.filter.IdentityFilter@f./adasim/filter/IdentityFilter.java": [
-            "Adaptive Strategies (Hybrid)"
-        ],
-        "@ladasim.generator.Generator@kj4adasim.generator.Generator@f./adasim/generator/Generator.java": [
-            "Adaptive Strategies (Hybrid)"
+            "ATRP Adaptive Strategies"
         ]
     }
 }
