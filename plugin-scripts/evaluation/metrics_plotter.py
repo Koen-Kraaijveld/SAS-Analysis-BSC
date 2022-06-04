@@ -190,7 +190,7 @@ def plot_double_bar_chart(ax, labels, values, title, y_axis_label, has_xticks, c
     ax.set_ylabel(y_axis_label, fontsize=10)
     ax.set_title(title)
     if has_xticks:
-        ax.set_xticks(x, labels, rotation=45, ha='right')
+        plt.xticks(x, labels, rotation=45, ha='right')
     else:
         ax.set_xticks(x, [''] * len(labels))
     ax.set_axisbelow(True)
@@ -283,7 +283,7 @@ def plot_single_bar_chart(ax, labels, values, title, y_axis_label, has_xticks, c
     ax.set_ylabel(y_axis_label, fontsize=10)
     ax.set_title(title)
     if has_xticks:
-        ax.set_xticks(x, labels, rotation=45, ha='right')
+        plt.xticks(x, labels, rotation=45, ha='right')
     else:
         ax.set_xticks(x, [''] * len(labels))
     ax.set_axisbelow(True)
