@@ -40,4 +40,4 @@ adaptive_strategies = get_ent_array_from_names(func_ents, [
 
 print(adaptive_strategies)
 
-evaluate(adaptive_strategies, "Dragonfly")
+evaluate(adaptive_strategies, "Dragonfly", False)

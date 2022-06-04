@@ -211,7 +211,7 @@ def graph_modifiability(data):
             modifiability.append(ent["Maintainability"]["Modifiability"])
             ent_names_with_modifiability.append(ent["Ent"])
 
-    cmap = plt.get_cmap("Paired")(np.arange(len(ent_names_with_modifiability)))
+    cmap = plt.get_cmap("Paired")(np.arange(16))
 
     fig, ax = plt.subplots(2, 1)
     fig.subplots_adjust(hspace=0.5)

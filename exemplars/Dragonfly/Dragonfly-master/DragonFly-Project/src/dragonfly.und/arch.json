@@ -1,47 +1,19 @@
 {
     "ents": {
-        "@lcontroller.DroneAutomaticController@kj4controller.DroneAutomaticController@f./controller/DroneAutomaticController.java": [
-            "Adaptive Strategies (Class)"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject.checkStatus@kj1model.entity.drone.DroneBusinessObject.checkStatusmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test",
-            "Adaptive Loops"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject.closeDirection@kj1model.entity.drone.DroneBusinessObject.closeDirectionview.CellView,view.CellView@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject.distanceDroneWentRight@kj1model.entity.drone.DroneBusinessObject.distanceDroneWentRightview.CellView,view.CellView@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test"
-        ],
         "@lmodel.entity.drone.DroneBusinessObject.flying@kj1model.entity.drone.DroneBusinessObject.flyingmodel.entity.drone.Drone,KeyCode@f./model/entity/drone/DroneBusinessObject.java": [
-            "Adaptive Strategies Hybrid",
-            "Multiple Methods Test",
-            "Adaptive Strategies"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject.flyingLeft@kj1model.entity.drone.DroneBusinessObject.flyingLeftmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject.flyingRight@kj1model.entity.drone.DroneBusinessObject.flyingRightmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test"
+            "Dragonfly - Adaptive Strategies"
         ],
         "@lmodel.entity.drone.DroneBusinessObject.landing@kj1model.entity.drone.DroneBusinessObject.landingmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Multiple Methods Test",
-            "Adaptive Strategies"
+            "Dragonfly - Adaptive Strategies"
         ],
         "@lmodel.entity.drone.DroneBusinessObject.returnToHome@kj1model.entity.drone.DroneBusinessObject.returnToHomemodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Adaptive Strategies Hybrid",
-            "Multiple Methods Test",
-            "Adaptive Strategies"
+            "Dragonfly - Adaptive Strategies"
         ],
         "@lmodel.entity.drone.DroneBusinessObject.safeLanding@kj1model.entity.drone.DroneBusinessObject.safeLandingmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Adaptive Strategies"
+            "Dragonfly - Adaptive Strategies"
         ],
         "@lmodel.entity.drone.DroneBusinessObject.shutDown@kj1model.entity.drone.DroneBusinessObject.shutDownmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
-            "Adaptive Strategies"
-        ],
-        "@lmodel.entity.drone.DroneBusinessObject@kj4model.entity.drone.DroneBusinessObject@f./model/entity/drone/DroneBusinessObject.java": [
-            "Adaptive Strategies Hybrid",
-            "Adaptive Strategies (Class)"
+            "Dragonfly - Adaptive Strategies"
         ]
     }
 }

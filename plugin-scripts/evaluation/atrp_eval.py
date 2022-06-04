@@ -39,4 +39,4 @@ adaptive_strategies = get_ent_array_from_names(class_ents, [
     "AlwaysRecomputeRoutingAlgorithm"
 ])
 
-evaluate(adaptive_strategies, "ATRP")
+evaluate(adaptive_strategies, "ATRP", True)
