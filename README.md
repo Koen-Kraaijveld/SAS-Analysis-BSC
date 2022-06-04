@@ -16,6 +16,8 @@ code analysis tool [Understand](https://licensing.scitools.com/download), which 
 code in order to access. Alternatively, a 30-day trial 
 version can also be downloaded.
 
+In addition to this, running the evaluation scripts requires Python 3.8.
+
 Installation
 ------------
 The following steps can be followed to ensure that the 
@@ -91,7 +93,7 @@ when the plugin was run on ATRP and Dragonfly.
 Running the Evaluation Scripts
 ------------
 In order to the run the evaluation and see the graphs 
-presented in the thesis, following the steps below:
+presented in the thesis, following the steps below (requires Python 3.8):
 1. Navigate to the directory that was cloned from this repository.
 2. From there, navigate to /plugin-scripts/evaluation.
 3. Run ```atrp_eval.py``` and ```dragonfly_eval.py``` to see the results for ATRP and Dragonfly, respectively.
