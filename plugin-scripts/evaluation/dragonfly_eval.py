@@ -3,7 +3,7 @@ import os
 os.add_dll_directory("C:\\Program Files\\SciTools\\bin\\pc-win64")
 
 import understand
-from evaluator import evaluate
+from evaluator import evaluate, save_data
 
 db = understand.open(
     r"C:\Users\koenk\OneDrive\Documents\Vrije Universiteit\Year "
@@ -40,4 +40,5 @@ adaptive_strategies = get_ent_array_from_names(func_ents, [
 
 print(adaptive_strategies)
 
-evaluate(adaptive_strategies, "Dragonfly", False)
+data = evaluate(adaptive_strategies, "Dragonfly", False)
+save_data(data, "./data/dragonfly.json")

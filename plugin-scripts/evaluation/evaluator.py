@@ -11,24 +11,31 @@ from metrics_plotter import graph_concentration_control, graph_adaptive_metrics_
     graph_coupling, graph_lack_of_cohesion
 
 
-
 def evaluate(target, exemplar_name, is_class_based):
     data = generate_blank_data_template()
     calculate_metrics(data, target)
     print_data(data)
 
-    graph_locality(data, exemplar_name)
-    graph_concentration_control(data, exemplar_name)
-    graph_dependency_degree(data, exemplar_name)
-    graph_adaptive_testabiltiy(data, exemplar_name)
+    # graph_locality(data, exemplar_name)
+    # graph_concentration_control(data, exemplar_name)
+    # graph_dependency_degree(data, exemplar_name)
+    # graph_adaptive_testabiltiy(data, exemplar_name)
+    #
+    # if is_class_based:
+    #     graph_coupling(data, exemplar_name)
+    #     graph_lack_of_cohesion(data, exemplar_name)
 
-    if is_class_based:
-        graph_coupling(data, exemplar_name)
-        graph_lack_of_cohesion(data, exemplar_name)
+    return data
 
 
 def print_data(data):
     print(json.dumps(data, indent=3))
+
+
+def save_data(data, file):
+    with open(file, 'w') as outfile:
+        json.dump(data, outfile)
+
 
 
 def generate_blank_data_template():

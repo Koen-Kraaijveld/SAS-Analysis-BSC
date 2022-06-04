@@ -3,7 +3,9 @@ import os
 os.add_dll_directory("C:\\Program Files\\SciTools\\bin\\pc-win64")
 
 import understand
-from evaluator import evaluate
+import json
+
+from evaluator import evaluate, save_data
 
 db = understand.open(
     r"C:\Users\koenk\OneDrive\Documents\Vrije Universiteit\Year "
@@ -30,6 +32,9 @@ def get_ent_array_from_names(ent_pool, ent_name_arr):
     return target_ents
 
 
+
+
+
 adaptive_strategies = get_ent_array_from_names(class_ents, [
     "AbstractRoutingAlgorithm",
     "AdaptiveRoutingAlgorithm",
@@ -39,4 +44,5 @@ adaptive_strategies = get_ent_array_from_names(class_ents, [
     "AlwaysRecomputeRoutingAlgorithm"
 ])
 
-evaluate(adaptive_strategies, "ATRP", True)
+data = evaluate(adaptive_strategies, "ATRP", True)
+save_data(data, "./data/atrp.json")

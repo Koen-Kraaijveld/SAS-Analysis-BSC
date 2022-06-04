@@ -2,8 +2,8 @@ Introduction
 ------------
 The Adaptive Strategies Metric Suite (ASMS) is a plugin 
 implemented for the static code analysis tool Understand, 
-developed by Scientific Toolworks. It realizes the designed 
-metric suite discussed in this thesis. Running the plugin 
+developed by Scientific Toolworks. It realizes a 
+metric suite designed to measure the adaptive strategies of self-adaptive systems. Running the plugin 
 from Understand will generate the corresponding results 
 computed by these metrics in an Interactive Report (IReport), 
 which is a feature supported by Understand to display the 
