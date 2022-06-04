@@ -21,14 +21,14 @@ Installation
 The following steps can be followed to ensure that the 
 plugin will be installed and recognized by Understand:
 
-1. Clone this repository by running the following command
+1. Clone this repository by running the following command:
    1. ```git clone https://github.com/Koen-Kraaijveld/ASMS.git```
-2. Navigate to /plugin-scripts
-3. Copy/cut the ```adaptive_strategies_metric_suite.upy``` file
-4. Navigate to the directory where Understand is installed
-   1. The default directory location is C:/Program Files/SciTools
-5. From there, navigate to /conf/plugin/User/IReport
-6. Paste the file in this directory
+2. Navigate to /plugin-scripts.
+3. Copy/cut the ```adaptive_strategies_metric_suite.upy``` file.
+4. Navigate to the directory where Understand is installed.
+   1. The default directory location is C:/Program Files/SciTools.
+5. From there, navigate to /conf/plugin/User/IReport.
+6. Paste the file in this directory.
 
 The plugin should now be correctly installed and accessible 
 to Understand. To verify, open Understand and open a project. 
@@ -50,7 +50,7 @@ following steps in order to reproduce the results from
 when the plugin was run on ATRP and Dragonfly.
 
 ### ATRP ###
-1. Open Understand
+1. Open Understand.
 2. Go to File → Open → Project.
 3. Navigate to the directory that was cloned from this repository.
 4. From there, navigate to ```/exemplars/ATRP/adasim-master/src```.
@@ -61,7 +61,7 @@ when the plugin was run on ATRP and Dragonfly.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. See the screenshot below for further clarity.
     <br /> &nbsp;    
       ![atrp_arch_execute_instructions](/readme-img/atrp_archictecture_execute.png) <br />
-    <br /> &nbsp;
+    <br />
    4. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
     
@@ -73,7 +73,7 @@ when the plugin was run on ATRP and Dragonfly.
 
 
 ### Dragonfly ###
-1. Open Understand
+1. Open Understand.
 2. Go to File → Open → Project.
 3. Navigate to the directory that was cloned from this repository.
 4. From there, navigate to ```/exemplars/Dragonfly/Dragonfly-master/DragonFly-Project/src```.
@@ -84,7 +84,7 @@ when the plugin was run on ATRP and Dragonfly.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. The screenshot belows provides additional clarity.
    <br /> &nbsp; 
       ![dragonfly_arch_execute_instructions](/readme-img/dragonfly_archictecture_execute.png) <br />
-   <br /> &nbsp;
+   <br />
    
    5. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
