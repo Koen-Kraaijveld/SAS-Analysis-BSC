@@ -59,8 +59,9 @@ when the plugin was run on ATRP and Dragonfly.
    1. Open the Architecture Browser window by going to Architectures → Browse Architectures. There should already be an architecture there named ‘ATRP Adaptive Strategies’.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. See the screenshot below for further clarity.
-    ![atrp_arch_execute_instructions](/readme-img/atrp_archictecture_execute.png)
-   
+    <br />    
+      ![atrp_arch_execute_instructions](/readme-img/atrp_archictecture_execute.png) <br />
+    <br />
    4. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
     
@@ -81,8 +82,11 @@ when the plugin was run on ATRP and Dragonfly.
    1. Open the Architecture Browser window by going to Architectures → Browse Architectures. There should already be an architecture there named Dragonfly Adaptive Strategies’.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. The screenshot belows provides additional clarity.
-       ![dragonfly_arch_execute_instructions](/readme-img/dragonfly_archictecture_execute.png)
-   4. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
+   <br />    
+      ![dragonfly_arch_execute_instructions](/readme-img/dragonfly_archictecture_execute.png) <br />
+   <br />
+   
+   5. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
 Running the Evaluation Scripts
 ------------
@@ -91,4 +95,4 @@ presented in the thesis, following the steps below:
 1. Navigate to the directory that was cloned from this repository.
 2. From there, navigate to /plugin-scripts/evaluation.
 3. Run ```atrp_eval.py``` and ```dragonfly_eval.py``` to see the results for ATRP and Dragonfly, respectively.
-4. The graphs from the Evaluation section (5.2) should render in order of appearance.
+4. The graphs should render in order of appearance.
