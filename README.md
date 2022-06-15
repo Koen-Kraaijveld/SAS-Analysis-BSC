@@ -103,7 +103,7 @@ presented in the thesis, following the steps below (requires Python 3.8):
 Exemplars
 ------------
 1. [Dragonfly](https://github.com/DragonflyDrone/Dragonfly)
-2. [ATRP]([https://github.com/brunyuriy/adasim])
+2. [ATRP](https://github.com/brunyuriy/adasim)
 3. [DARTSim](https://github.com/cps-sei/dartsim)
 4. [UNDERSEA](https://drops.dagstuhl.de/opus/volltexte/2017/7141/)
 5. [Platooning LEGOs](https://zenodo.org/record/4604167)
