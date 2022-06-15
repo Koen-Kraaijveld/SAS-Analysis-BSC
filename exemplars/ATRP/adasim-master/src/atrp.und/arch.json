@@ -1,22 +1,22 @@
 {
     "ents": {
         "@ladasim.algorithm.routing.AbstractRoutingAlgorithm@kj4adasim.algorithm.routing.AbstractRoutingAlgorithm@f./adasim/algorithm/routing/AbstractRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.AdaptiveRoutingAlgorithm@kj4adasim.algorithm.routing.AdaptiveRoutingAlgorithm@f./adasim/algorithm/routing/AdaptiveRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.AlwaysRecomputeRoutingAlgorithm@kj4adasim.algorithm.routing.AlwaysRecomputeRoutingAlgorithm@f./adasim/algorithm/routing/AlwaysRecomputeRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm@kj4adasim.algorithm.routing.LookaheadShortestPathRoutingAlgorithm@f./adasim/algorithm/routing/LookaheadShortestPathRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.QLearningRoutingAlgorithm@kj4adasim.algorithm.routing.QLearningRoutingAlgorithm@f./adasim/algorithm/routing/QLearningRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ],
         "@ladasim.algorithm.routing.TrafficLookaheadRoutingAlgorithm@kj4adasim.algorithm.routing.TrafficLookaheadRoutingAlgorithm@f./adasim/algorithm/routing/TrafficLookaheadRoutingAlgorithm.java": [
-            "ATRP Adaptive Strategies"
+            "ATRP - Adaptive Strategies"
         ]
     }
 }

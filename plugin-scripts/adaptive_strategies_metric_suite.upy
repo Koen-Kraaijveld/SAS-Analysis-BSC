@@ -3,38 +3,108 @@ import statistics
 
 
 def name():
+    """
+    Defines the name of the IReport.
+    Returns the name of the IReport used in Understand.
+    -------
+
+    """
     return "Adaptive Strategies Metric Suite"
 
 
 def test_global(db):
+    """
+    Checks to see if the IReport can be run globally.
+    Parameters
+    ----------
+    db: the instance of the DB corresponding to the one that the Understand API will operate in.
+
+    Returns true if the IReport can be run globally.
+    -------
+
+    """
     return True
 
 
 def test_entity(ent):
+    """
+    Checks to see if the IReport can be run on an entity.
+    Parameters
+    ----------
+    ent: the instance an Entity corresponding to the that the Understand API will operate on.
+
+    Returns true if the IReport can be run on an Entity type.
+    -------
+
+    """
     return True
 
 
 def test_architecture(arch):
+    """
+    Checks to see if the IReport can be run on an Architecture.
+
+    Parameters
+    ----------
+    :param arch: the instance an Architecture corresponding to the that the Understand API will operate on.
+
+    Returns
+    -------
+    :return: True if the IReport can be run on an Architecture type.
+    """
     return True
 
 
 def support_abort():
+    """
+    Checks if the IReport supports abort requests.
+    Returns
+    -------
+    :return: True if the IReport can be aborted.
+    """
     return False
 
 
 def abort():
+    """
+    Signal used to see if an abort is requested.
+    Returns
+    -------
+    :return: A signal that shows that an abort has been requested.
+    """
     pass
 
 
 def support_proress():
+    """
+    Checks to see if the IReport shows its execution progress.
+    Returns
+    -------
+    :return: True if the IReport should provide an indication of progress (i.e. a progress bar)
+
+    """
     return True
 
 
 def init(report):
+    """
+    Checks the possible options associated with an IReport.
+
+    Parameters
+    ----------
+    :param report: instance of the IReport.
+    """
     pass
 
 
 def generate(report, target):
+    """
+    Runs the metrics and displays them in a generated UI box related to the IReport instance.
+
+    Args:
+        report: instance of the IReport.
+        target: target entity, architecture or global execution on which the metrics will run
+    """
     starting_tree_depth = 1
 
     if isinstance(target, understand.Ent):
@@ -48,6 +118,15 @@ def generate(report, target):
 # ====================  ARCHITECTURE - ADAPTIVE METRICS REPORT  ==================== #
 
 def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
+    """
+    Runs the metrics on an architecture and displays them in the IReport.
+
+    Args:
+        report: instance of the IReport.
+        arch: architecture on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_tree_title(report, "Adaptive Strategies Metric Results (Architecture)", tree_depth)
     arch_generate_concentration_of_control_tree(report, arch, tree_depth + 1)
     arch_calculate_elementarity_tree(report, arch, tree_depth + 1)
@@ -60,11 +139,27 @@ def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
 
 
 def arch_generate_concentration_of_control_tree(report, arch, tree_depth):
+    """
+    Runs the Concentration of Impact metrics on an architecture and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        arch: architecture on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
     print_tree_title(report, "Concentration of Control", tree_depth, is_default_collapsed=1)
     arch_calculate_decentralization_tree(report, arch, tree_depth + 1)
 
 
 def arch_calculate_decentralization_tree(report, arch, tree_depth):
+    """
+    Runs the Global Impact Radius Distribution and Statistics metrics and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        arch: architecture on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
     arch_children = arch.ents()
     ent_arr = []
     ent_global_control_arr = []
@@ -97,42 +192,79 @@ def arch_calculate_decentralization_tree(report, arch, tree_depth):
 
 def arch_calculate_control_decentralization_statistics(report, ent_arr, ent_global_control_arr,
                                                        summed_ent_global_control, tree_depth):
+    """
+    Runs the Global Control Radius Statistics metrics and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        ent_arr: array containing the entities that the metric will run on.
+        ent_global_control_arr: array containing the Relative Global Impact Radius of each entity in the architecture.
+        summed_ent_global_control: summed value of the ent_global_control_arr array.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_line(report, "Global Control Radius Statistics", tree_depth + 1, is_default_collapsed=1)
 
     tree_depth += 1
     print_line(report, "Maximum", tree_depth + 1,
-               hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Maximum"], is_default_collapsed=1)
+               hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Maximum"],
+               is_default_collapsed=1)
     print_component_control(report, ent_arr[0], summed_ent_global_control, tree_depth)
 
     print_line(report, "Minimum", tree_depth + 1,
-               hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Minimum"])
+               hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Minimum"])
     print_component_control(report, ent_arr[len(ent_arr) - 1], summed_ent_global_control, tree_depth)
 
     if len(ent_global_control_arr) >= 2:
-        variance = round(statistics.variance(ent_global_control_arr), 2)
-        print_mapped_line(report, "Variance", variance, tree_depth + 1,
-                          hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["Variance"])
+        mean = round(statistics.mean(ent_global_control_arr), 2)
+        print_mapped_line(report, "Mean", mean, tree_depth + 1,
+                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Mean"])
+
+        median = round(statistics.median(ent_global_control_arr), 2)
+        print_mapped_line(report, "Median", median, tree_depth + 1,
+                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Median"])
 
         stdev = round(statistics.stdev(ent_global_control_arr), 2)
         print_mapped_line(report, "Standard deviation", stdev, tree_depth + 1,
-                          hover_text=METRIC_DESCRIPTION["Decentralization"]["Statistics"]["StandardDeviation"])
+                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"][
+                              "StandardDeviation"])
 
 
 def print_component_control(report, ent, summed_ent_global_control, tree_depth):
+    """
+    Displays the Relative Global Impact Radius values in the IReport instance.
+
+    Args:
+        report: instance of the IReport.
+        ent: entity to be displayed in the IReport.
+        summed_ent_global_control: summed value of the Relative Global Impact Radius of each entity in the architecture.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     spread = round(ent["control"] / summed_ent_global_control, 2)
     print_ent_line(report, ent["ent"], tree_depth + 2)
     print_mapped_line(report, "Relative", spread, tree_depth + 3,
-                      METRIC_DESCRIPTION["Decentralization"]["Spread"]["Relative"], is_default_collapsed=1)
+                      METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Spread"]["Relative"],
+                      is_default_collapsed=1)
 
 
 def arch_calculate_elementarity_tree(report, arch, tree_depth):
+    """
+    Runs the Dependency Degree Tree metric and displays its results.
+
+    Args:
+        report: instance of the IReport.
+        arch: architecture on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_tree_title(report, "Elementarity", tree_depth, is_default_collapsed=1)
     grouped_ents = group_together_classes_and_methods(arch.ents())
 
     elementarity_tree_method = construct_elementarity_tree(grouped_ents["methods"])
     elementarity_tree_class = construct_elementarity_tree_class(grouped_ents["classes"])
 
-    print_line(report, "Dependency Degree", tree_depth + 1, hover_text=METRIC_DESCRIPTION["Elementarity"]["Tree"],
+    print_line(report, "Dependency Degree", tree_depth + 1, hover_text=METRIC_DESCRIPTION["DependencyDegree"]["Tree"],
                is_default_collapsed=1)
     tree_depth += 1
 
@@ -164,26 +296,55 @@ def arch_calculate_elementarity_tree(report, arch, tree_depth):
 
 
 def calculate_elementarity_tree_info(report, elementarity_tree, tree_depth):
+    """
+    Runs the Dependency Degree metrics with the Depends on and Depended on by subtypes, and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        elementarity_tree: constructed tree showing the dependency relations between the entities in the architecture
+        through a tree data structure
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
     elementarity_tree_info = count_dependencies(elementarity_tree, 0, [])
     tree_dependencies_info = sorted(elementarity_tree_info, key=lambda d: d['Depends on'])
 
     for dependency in tree_dependencies_info:
         print_ent_line(report, dependency["ent"], tree_depth + 1)
         print_mapped_line(report, "Depends On", dependency["Depends on"], tree_depth + 2,
-                          hover_text=METRIC_DESCRIPTION["Elementarity"]["Information"]["DependsOn"],
+                          hover_text=METRIC_DESCRIPTION["DependencyDegree"]["DependsOn"],
                           is_default_collapsed=1)
         print_mapped_line(report, "Depended On By", dependency["Depended by"], tree_depth + 2,
-                          hover_text=METRIC_DESCRIPTION["Elementarity"]["Information"]["DependedOnBy"],
+                          hover_text=METRIC_DESCRIPTION["DependencyDegree"]["DependedOnBy"],
                           is_default_collapsed=1)
 
 
 def print_elementarity_tree(report, tree, tree_depth):
+    """
+    Displays the result of the Dependency Degree Tree metric.
+
+    Args:
+        report: instance of the IReport.
+        tree: constructed tree showing the dependency relations between the entities in the architecture
+        through a tree data structure.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_ent_line(report, tree["ent"], tree_depth + 1)
     for tree_child in tree["children"]:
         print_elementarity_tree(report, tree_child, tree_depth + 1)
 
 
 def construct_elementarity_tree(target_ent_arr):
+    """
+    Constructs the Dependency Degree Tree from the entities in the architecture.
+
+    Args:
+        target_ent_arr: the entities in the architecture that the metric will run on.
+
+    Returns:
+        Array of dictionaries corresponding to a node in the constructed Dependency Degree Tree.
+    """
+
     direct_called_func = []
     for target_ent in target_ent_arr:
         sub_called_func = {
@@ -226,6 +387,15 @@ def construct_elementarity_tree(target_ent_arr):
 # ====================  CLASS - ADAPTIVE METRICS REPORT  ==================== #
 
 def construct_elementarity_tree_class(ents):
+    """
+    Constructs a Dependency Degree Tree out of the dependency relations between entities in an architecture.
+
+    Args:
+        ents: array of entities from which its Dependency Degree Tree will be constructed.
+
+    Returns: a dictionary containing the Dependency Degree Tree.
+
+    """
     classes = []
     for ent in ents:
 
@@ -275,6 +445,15 @@ def construct_elementarity_tree_class(ents):
 # ====================  METHOD - ADAPTIVE METRICS REPORT  ==================== #
 
 def method_generate_adaptive_metrics_report(report, target, tree_depth):
+    """
+    Runs the metrics designed for an entity and displays the results.
+
+    Args:
+        report: instance of the IReport.
+        target: target entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     report_title = f"Adaptive Strategies Metric Results "
     if is_class(target):
         report_title += "(Class)"
@@ -298,6 +477,15 @@ def method_generate_adaptive_metrics_report(report, target, tree_depth):
 
 
 def method_generate_maintainability_tree(report, ent, tree_depth):
+    """
+    Runs the Maintainability metrics and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_tree_title(report, "Maintainability", tree_depth)
     method_calculate_testability(report, ent, tree_depth + 1)
 
@@ -306,6 +494,14 @@ def method_generate_maintainability_tree(report, ent, tree_depth):
 
 
 def method_calculate_testability(report, ent, tree_depth):
+    """
+    Runs the Adaptive Testability metrics and displays their results.
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_tree_title(report, "Testability", tree_depth)
 
     complexity_type = []
@@ -325,6 +521,14 @@ def method_calculate_testability(report, ent, tree_depth):
 
 
 def method_calculate_modifiability(report, ent, tree_depth):
+    """
+    Runs the Adaptive Modifiability metrics and displays their results.
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
+
     print_tree_title(report, "Modifiability", tree_depth, is_default_collapsed=1)
 
     coupling = get_metric_from_name(ent, "CountClassCoupled")
@@ -337,11 +541,30 @@ def method_calculate_modifiability(report, ent, tree_depth):
 
 
 def method_generate_locality_tree(report, ent, tree_depth, is_default_collapsed=0):
+    """
+    Runs the Locality metrics and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
+
     print_tree_title(report, "Locality", tree_depth, is_default_collapsed=is_default_collapsed)
     method_calculate_control_radius(report, ent, tree_depth + 1)
 
 
 def method_calculate_control_radius(report, ent, tree_depth):
+    """
+    Runs the Impact Radius metrics and displays their results.
+
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the metrics will run.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+    """
     print_tree_title(report, "Control Radius", tree_depth, is_default_collapsed=1)
 
     local_control = calculate_local_control_for_method(report, ent)
@@ -356,11 +579,30 @@ def method_calculate_control_radius(report, ent, tree_depth):
 # ===============================  UTILITIES  =============================== #
 
 def get_metric_from_name(ent, name):
+    """
+    Retrieves a metric from an entity based on the given metric name.
+
+    Args:
+        ent: entity from which the metric will be retrieved.
+        name: name of the metric.
+
+    Returns: retrieved metric value.
+    """
     metric = ent.metric((name,))
     return metric[name]
 
 
 def sum_metrics_from_ent_array(ent_array, metric_name):
+    """
+    Sums the metrics from an array of entities based on the given metric name.
+
+    Args:
+        ent_array: array of entities from which the metric will be retrieved and summed.
+        metric_name: name of the metric
+
+    Returns: summed metric value.
+    """
+
     total = 0
     for ent in ent_array:
         metric_val = get_metric_from_name(ent, metric_name)
@@ -371,6 +613,15 @@ def sum_metrics_from_ent_array(ent_array, metric_name):
 
 
 def calculate_local_control_for_method(report, ent):
+    """
+    Calculates the Local Impact Radius of a method.
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the Local Impact Radius will be calculated.
+
+    Returns: Local Impact Radius value.
+
+    """
     starting_local_control = get_metric_from_name(ent, "CountStmtExe")
 
     if not is_class(ent):
@@ -395,12 +646,31 @@ def calculate_local_control_for_method(report, ent):
 
 
 def calculate_global_control_for_method(report, ent):
+    """
+    Calculates the Global Impact Radius of a method.
+    Args:
+        report: instance of the IReport.
+        ent: entity on which the Global Impact Radius will be calculated.
+
+    Returns: Global Impact Radius value.
+
+    """
+
     starting_global_control = get_metric_from_name(ent, "CountStmtExe")
     total_called_ent_names = collect_total_called_ent_names(report, ent)
     return starting_global_control + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
 
 
 def sum(array):
+    """
+    Sums the values from a given array.
+
+    Args:
+        array: array from which the sum will be calculated.
+
+    Returns: the summed value from the array.
+
+    """
     total = 0
     for n in array:
         total += n
@@ -409,6 +679,15 @@ def sum(array):
 
 
 def collect_defined_class_funcs(class_name):
+    """
+    Collects all methods associated with a class.
+
+    Args:
+        class_name: name of the class from which its methods will be calculated.
+
+    Returns: an array of methods associated with the input class.
+
+    """
     defined_class_funcs = []
 
     if refs := class_name.refs():
@@ -422,6 +701,16 @@ def collect_defined_class_funcs(class_name):
 
 
 def collect_called_func_names(ent, called_func_names_arr):
+    """
+    Collects all methods that are directly connected to an input method's call graph.
+
+    Args:
+        ent: the entity (method) from which its directly connected call graph methods will be retrieved.
+        called_func_names_arr: empty array in which the directly connected methods will be placed.
+
+    Returns: array containing the directly connected methods from an input method's call graph.
+
+    """
     if refs := ent.refs():
         for ref in refs:
             kind = ref.kind().longname()
@@ -436,6 +725,16 @@ def collect_called_func_names(ent, called_func_names_arr):
 
 
 def collect_total_called_ent_names(report, ent):
+    """
+        Collects all methods that are reachable (directly and indirectly connected) to an input method's call graph.
+
+        Args:
+            report: instance of the IReport.
+            ent: the entity (method) from which its reachable call graph methods will be retrieved.
+
+        Returns: array containing the reachable methods from an input method's call graph.
+
+        """
     if not is_class(ent):
 
         total_called_ent_names = collect_called_func_names(ent, [])
@@ -465,6 +764,19 @@ def collect_total_called_ent_names(report, ent):
 
 
 def count_dependencies(tree, depends_on_count, dependencies_info):
+    """
+    Recursively counts the Depends on and Depended on by subtypes for the Dependency Degree metric.
+
+    Args:
+        tree: constructed tree showing the dependency relations between the entities in the architecture
+        through a tree data structure.
+        depends_on_count: number to keep track of the Depends on count for an input node.
+        dependencies_info: array of dictionaries to keep track of the Depends on and Depended on by subtypes of each
+        node in the tree.
+
+    Returns:
+
+    """
     if len(tree["children"]) > 0:
         depended_by_count = calculate_total_nodes(tree, 0)
     else:
@@ -487,6 +799,15 @@ def count_dependencies(tree, depends_on_count, dependencies_info):
 
 
 def find_parent_class(child_class):
+    """
+    Finds the parent class of an input class.
+
+    Args:
+        child_class: the class from which its parent will be retrieved.
+
+    Returns: the parent class of the input class (child_class)
+
+    """
     dependencies = child_class.depends()
     for target in sorted(dependencies.keys(), key=lambda target: target.longname()):
         for ref in dependencies[target]:
@@ -495,15 +816,34 @@ def find_parent_class(child_class):
                 return ref
 
 
-def calculate_total_nodes(tree, count):
-    count = len(tree["children"])
-    for child in tree["children"]:
+def calculate_total_nodes(node, count):
+    """
+    Calculates the number of total children of a node in a tree.
+
+    Args:
+        node: the node from which its total number of children will be calculated.
+        count: number to keep track of the number of children associated with an input node.
+
+    Returns: the number of total children that a node has in a tree.
+
+    """
+    count = len(node["children"])
+    for child in node["children"]:
         count += calculate_total_nodes(child, count)
 
     return count
 
 
 def group_together_classes_and_methods(ents):
+    """
+    Groups together classes and methods from an initial array of entities.
+
+    Args:
+        ents: array of entities which will be grouped into either classes or methods.
+
+    Returns: a dictionary containing the classes and methods.
+
+    """
     classes = []
     methods = []
 
@@ -521,16 +861,46 @@ def group_together_classes_and_methods(ents):
 
 
 def is_class(ent):
+    """
+    Checks if an input entity is a class.
+
+    Args:
+        ent: entity that will be checked if it is a class.
+
+    Returns: true if the entity is a class.
+
+    """
     type_split = ent.kind().name().split()
     return "Class" in type_split or "Interface" in type_split
 
 
 def is_method(ent):
+    """
+    Checks if an input entity is a method.
+
+    Args:
+        ent: entity that will be checked if it is a method.
+
+    Returns: true if the entity is a method.
+
+    """
+
     type_split = ent.kind().name().split()
     return "Method" in type_split or "Function" in type_split
 
 
 def print_line(report, line, tree_depth, hover_text=None, is_default_collapsed=0):
+    """
+    Displays a line of text in the IReport UI box.
+
+    Args:
+        report: instance of the IReport.
+        line: text that will be displayed.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        hover_text: text that will be displayed when hovering cursor over the displayed text in the UI box.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
     text = str(line)
 
     report.tree(tree_depth, is_default_collapsed)
@@ -546,6 +916,19 @@ def print_line(report, line, tree_depth, hover_text=None, is_default_collapsed=0
 
 
 def print_mapped_line(report, name, value, tree_depth, hover_text=None, is_default_collapsed=0):
+    """
+    Displays a line of text that is mapped to a value in the IReport UI box.
+
+    Args:
+        report: instance of the IReport.
+        name: text that will be displayed.
+        value: value that is mapped from the name.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        hover_text: text that will be displayed when hovering cursor over the displayed text in the UI box.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
+
     text = str(value)
 
     report.tree(tree_depth, is_default_collapsed)
@@ -565,6 +948,19 @@ def print_mapped_line(report, name, value, tree_depth, hover_text=None, is_defau
 
 
 def print_mapped_ent_line(report, ent, value, tree_depth, hover_text=None, is_default_collapsed=0):
+    """
+    Displays an entity hyperlink that is mapped to a value in the IReport UI box.
+
+    Args:
+        report: instance of the IReport.
+        ent: ent hyperlink that will be displayed.
+        value: value that is mapped from the name.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        hover_text: text that will be displayed when hovering cursor over the displayed text in the UI box.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
+
     text = str(value)
 
     report.tree(tree_depth, is_default_collapsed)
@@ -586,6 +982,14 @@ def print_mapped_ent_line(report, ent, value, tree_depth, hover_text=None, is_de
 
 
 def print_debug_line(report, debug_info):
+    """
+    Displays a line of text in red used for debugging.
+
+    Args:
+        report: instance of the IReport.
+        debug_info: text that will be displayed.
+    """
+
     report.fontcolor("red")
     report.nobold()
     report.print("\n")
@@ -595,6 +999,17 @@ def print_debug_line(report, debug_info):
 
 
 def print_tree_title(report, tree_name, tree_depth, is_default_collapsed=0):
+    """
+    Displays a line of text in bold in the IReport UI box. This is used as a title for dropdown trees.
+
+    Args:
+        report: instance of the IReport.
+        tree_name: line of text in bold that will be displayed.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
+
     report.tree(tree_depth, is_default_collapsed)
     report.bold()
     report.print(tree_name)
@@ -602,6 +1017,17 @@ def print_tree_title(report, tree_name, tree_depth, is_default_collapsed=0):
 
 
 def print_ent_line(report, ent, tree_depth, is_default_collapsed=0):
+    """
+    Displays an entity hyperlink in the IReport UI box.
+
+    Args:
+        report: instance of the IReport.
+        ent: ent hyperlink that will be displayed.
+        tree_depth: current tree depth to manage at which level the dropdown trees will render.
+        is_default_collapsed: boolean to decide if this metrics dropdown tree should be collapsed when initially
+        displayed.
+    """
+
     report.tree(tree_depth, is_default_collapsed)
     report.entity(ent)
     report.nobold()
@@ -609,6 +1035,8 @@ def print_ent_line(report, ent, tree_depth, is_default_collapsed=0):
     report.entity()
 
 
+# Dictionary used to store the metric description for when a user hovers their cursor over a metric in the IReport UI
+# box.
 METRIC_DESCRIPTION = {
     "ControlRadius": {
         "Local": "Number of directly reachable executable statements",
@@ -623,27 +1051,23 @@ METRIC_DESCRIPTION = {
         "Coupling": "Number of other classes coupled to",
         "LackOfCohesion": "The percentage of class methods that do not use a class variable instance"
     },
-    "Decentralization": {
-        "Spread": {
-            "Relative": "The Global Control Radius relative to all other classes and functions in the same architecture",
-            "Absolute": "The Global Control Radius of a class or function in the architecture"
-        },
+    "GlobalControlRadiusDistribution": {
+        "Relative": "The Global Control Radius relative to all other classes and functions in the same architecture",
         "Statistics": {
-            "Maximum": "The class or function with the maximum Absolute Global Control Radius",
-            "Minimum": "The class or function with the minimum Absolute Global Control Radius",
-            "Variance": "The variance of the architecture based on the contained class or function Global Control "
-                        "Radius",
+            "Maximum": "The class or function with the maximum Relative Global Control Radius",
+            "Minimum": "The class or function with the minimum Relative Global Control Radius",
+            "Mean": "The mean of the architecture based on the contained class or function Relative Global Control "
+                    "Radius",
+            "Median": "The median of the architecture based on the contained class or function Relative Global Control "
+                      "Radius",
             "StandardDeviation": "The standard deviation of the architecture based on the contained class or "
-                                  "function Global Control Radius "
+                                 "function Relative Global Control Radius "
         }
     },
-    "Elementarity": {
+    "DependencyDegree": {
+        "DependsOn": "The number of classes of methods that a given class or function depends on",
+        "DependedOnBy": "The number of classes of methods that a given class or function is depended on by",
         "Tree": "Tree data structure that shows the dependency relations between each class or function contained in "
                 "the architecture ",
-        "Information": {
-            "DependsOn": "The number of classes of methods that a given class or function depends on",
-            "DependedOnBy": "The number of classes of methods that a given class or function is depended on by"
-        }
     }
-
 }

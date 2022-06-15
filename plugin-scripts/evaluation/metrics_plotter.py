@@ -3,6 +3,13 @@ import math
 from matplotlib import pyplot as plt
 from matplotlib import ticker
 import numpy as np
+params = {'legend.fontsize': 'x-large',
+          'figure.figsize': (15, 5),
+         'axes.labelsize': 'x-large',
+         'axes.titlesize':'x-large',
+         'xtick.labelsize':'x-large',
+         'ytick.labelsize':'x-large'}
+plt.rcParams.update(params)
 
 
 def graph_concentration_of_control_stats(data):
@@ -187,7 +194,7 @@ def plot_double_bar_chart(ax, labels, values, title, y_axis_label, has_xticks, c
     bar1 = ax.bar(x - width / 2, first_values, width, label=first_key, color=cmap[0])
     bar2 = ax.bar(x + width / 2, second_values, width, label=second_key, color=cmap[1])
 
-    ax.set_ylabel(y_axis_label, fontsize=10)
+    ax.set_ylabel(y_axis_label)
     ax.set_title(title)
     if has_xticks:
         plt.xticks(x, labels, rotation=45, ha='right')
@@ -196,6 +203,7 @@ def plot_double_bar_chart(ax, labels, values, title, y_axis_label, has_xticks, c
     ax.set_axisbelow(True)
     ax.grid(color='gray', linestyle='dashed')
     ax.legend()
+    plt.rc('axes', labelsize=12)
 
     if all(v == 0 for v in first_values) and all(v == 0 for v in second_values):
         ax.set_ylim([0, 1])
@@ -269,7 +277,7 @@ def graph_lack_of_cohesion(data, exemplar_name):
     lack_of_cohesion = [list(d.values())[1] for d in modifiability]
     plot_single_bar_chart(ax, ent_names_with_modifiability, lack_of_cohesion,
                           "Lack of Cohesion of each adaptive strategy in " + exemplar_name,
-                          "Average number of class instance variables not used by its functions (%)", True, cmap[6])
+                          "Average number of class \n instance variables not \n used by its functions (%)", True, cmap[6])
 
     plt.subplots_adjust(top=0.97, bottom=0.3)
     plt.show()
@@ -280,7 +288,7 @@ def plot_single_bar_chart(ax, labels, values, title, y_axis_label, has_xticks, c
     x = np.arange(len(labels))
     bar = ax.bar(x, values, width, color=cmap)
 
-    ax.set_ylabel(y_axis_label, fontsize=10)
+    ax.set_ylabel(y_axis_label)
     ax.set_title(title)
     if has_xticks:
         plt.xticks(x, labels, rotation=45, ha='right')

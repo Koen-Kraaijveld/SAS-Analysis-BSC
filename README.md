@@ -98,3 +98,13 @@ presented in the thesis, following the steps below (requires Python 3.8):
 2. From there, navigate to /plugin-scripts/evaluation.
 3. Run ```atrp_eval.py``` and ```dragonfly_eval.py``` to see the results for ATRP and Dragonfly, respectively.
 4. The graphs should render in order of appearance.
+
+
+Exemplars
+------------
+1. [Dragonfly](https://github.com/DragonflyDrone/Dragonfly)
+2. [ATRP]([https://github.com/brunyuriy/adasim])
+3. [DARTSim](https://github.com/cps-sei/dartsim)
+4. [UNDERSEA](https://drops.dagstuhl.de/opus/volltexte/2017/7141/)
+5. [Platooning LEGOs](https://zenodo.org/record/4604167)
+6. [TRAPP](https://github.com/iliasger/TRAPP)

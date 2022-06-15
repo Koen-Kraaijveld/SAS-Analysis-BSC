@@ -1,5 +1,8 @@
 {
     "ents": {
+        "@lmodel.entity.drone.DroneBusinessObject.checkStatus@kj1model.entity.drone.DroneBusinessObject.checkStatusmodel.entity.drone.Drone@f./model/entity/drone/DroneBusinessObject.java": [
+            "Dragonfly - Adaptive Strategies"
+        ],
         "@lmodel.entity.drone.DroneBusinessObject.flying@kj1model.entity.drone.DroneBusinessObject.flyingmodel.entity.drone.Drone,KeyCode@f./model/entity/drone/DroneBusinessObject.java": [
             "Dragonfly - Adaptive Strategies"
         ],

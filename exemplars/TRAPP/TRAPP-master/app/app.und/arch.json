@@ -1,0 +1,16 @@
+{
+    "ents": {
+        "@lapp.adaptation.Strategy.Strategy@kyapp.adaptation.Strategy.Strategy:./adaptation/Strategy.py@f./adaptation/Strategy.py": [
+            "TRAPP - Adaptive Strategies"
+        ],
+        "@lapp.adaptation.strategies.AvoidOverloadedStreets.AvoidOverLoadedStreets@kyapp.adaptation.strategies.AvoidOverloadedStreets.AvoidOverLoadedStreets:./adaptation/strategies/AvoidOverloadedStreets.py@f./adaptation/strategies/AvoidOverloadedStreets.py": [
+            "TRAPP - Adaptive Strategies"
+        ],
+        "@lapp.adaptation.strategies.LoadBalancing.LoadBalancing@kyapp.adaptation.strategies.LoadBalancing.LoadBalancing:./adaptation/strategies/LoadBalancing.py@f./adaptation/strategies/LoadBalancing.py": [
+            "TRAPP - Adaptive Strategies"
+        ],
+        "@lapp.adaptation.strategies.TunePlanningResolution.TunePlanningResolution@kyapp.adaptation.strategies.TunePlanningResolution.TunePlanningResolution:./adaptation/strategies/TunePlanningResolution.py@f./adaptation/strategies/TunePlanningResolution.py": [
+            "TRAPP - Adaptive Strategies"
+        ]
+    }
+}
