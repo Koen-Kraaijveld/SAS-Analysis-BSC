@@ -4,9 +4,9 @@ import statistics
 
 def name():
     """
-    Defines the name of the IReport.
-    Returns the name of the IReport used in Understand.
-    -------
+    Defines the name of the plugin that will be used by Understand.
+
+    Returns: string containing the name of the plugin.
 
     """
     return "Adaptive Strategies Metric Suite"
@@ -15,28 +15,28 @@ def name():
 def test_global(db):
     """
     Checks to see if the IReport can be run globally.
-    Parameters
-    ----------
-    db: the instance of the DB corresponding to the one that the Understand API will operate in.
 
-    Returns true if the IReport can be run globally.
-    -------
+    Args:
+        db: the instance of the DB corresponding to the one that the Understand API will operate in.
+
+    Returns: true if the IReport can be run globally.
 
     """
+
     return True
 
 
 def test_entity(ent):
     """
     Checks to see if the IReport can be run on an entity.
-    Parameters
-    ----------
-    ent: the instance an Entity corresponding to the that the Understand API will operate on.
 
-    Returns true if the IReport can be run on an Entity type.
-    -------
+    Args:
+        ent: the instance an Entity corresponding to the that the Understand API will operate on.
+
+    Returns: true if the IReport can be run on an Entity type.
 
     """
+
     return True
 
 
@@ -44,45 +44,46 @@ def test_architecture(arch):
     """
     Checks to see if the IReport can be run on an Architecture.
 
-    Parameters
-    ----------
-    :param arch: the instance an Architecture corresponding to the that the Understand API will operate on.
+    Args:
+        arch: the instance an Architecture corresponding to the that the Understand API will operate on.
 
-    Returns
-    -------
-    :return: True if the IReport can be run on an Architecture type.
+    Returns: true if the IReport can be run on an Architecture type.
+
     """
+
     return True
 
 
 def support_abort():
     """
     Checks if the IReport supports abort requests.
-    Returns
-    -------
-    :return: True if the IReport can be aborted.
+
+    Returns: true if the IReport can be aborted.
+
     """
+
     return False
 
 
 def abort():
     """
     Signal used to see if an abort is requested.
-    Returns
-    -------
-    :return: A signal that shows that an abort has been requested.
+
+    Returns: a signal that shows that an abort has been requested.
+
     """
+
     pass
 
 
 def support_proress():
     """
     Checks to see if the IReport shows its execution progress.
-    Returns
-    -------
-    :return: True if the IReport should provide an indication of progress (i.e. a progress bar)
+
+    Returns: true if the IReport should provide an indication of progress (i.e. a progress bar).
 
     """
+
     return True
 
 
@@ -90,10 +91,10 @@ def init(report):
     """
     Checks the possible options associated with an IReport.
 
-    Parameters
-    ----------
-    :param report: instance of the IReport.
+    Args:
+        report: instance of the IReport.
     """
+    
     pass
 
 
