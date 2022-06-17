@@ -94,7 +94,7 @@ def init(report):
     Args:
         report: instance of the IReport.
     """
-    
+
     pass
 
 
@@ -245,7 +245,7 @@ def print_component_control(report, ent, summed_ent_global_control, tree_depth):
     spread = round(ent["control"] / summed_ent_global_control, 2)
     print_ent_line(report, ent["ent"], tree_depth + 2)
     print_mapped_line(report, "Relative", spread, tree_depth + 3,
-                      METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Spread"]["Relative"],
+                      METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Relative"],
                       is_default_collapsed=1)
 
 
@@ -537,8 +537,9 @@ def method_calculate_modifiability(report, ent, tree_depth):
                       METRIC_DESCRIPTION["Modifiability"]["Coupling"], is_default_collapsed=1)
 
     cohesion = get_metric_from_name(ent, "PercentLackOfCohesion")
-    print_mapped_line(report, "Lack of Cohesion", str(cohesion) + "%", tree_depth + 1,
-                      METRIC_DESCRIPTION["Modifiability"]["LackOfCohesion"], is_default_collapsed=1)
+    if cohesion is not None:
+        print_mapped_line(report, "Lack of Cohesion", str(cohesion) + "%", tree_depth + 1,
+                          METRIC_DESCRIPTION["Modifiability"]["LackOfCohesion"], is_default_collapsed=1)
 
 
 def method_generate_locality_tree(report, ent, tree_depth, is_default_collapsed=0):

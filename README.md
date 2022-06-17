@@ -62,7 +62,7 @@ when the plugin was run on ATRP and Dragonfly.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. See the screenshot below for further clarity.
     <br /> &nbsp;    
-      ![atrp_arch_execute_instructions](/readme-img/atrp_archictecture_execute.png) <br />
+      ![atrp_arch_execute_instructions](/img/atrp_archictecture_execute.png) <br />
     <br />
    4. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
@@ -85,7 +85,7 @@ when the plugin was run on ATRP and Dragonfly.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. The screenshot belows provides additional clarity.
    <br /> &nbsp; 
-      ![dragonfly_arch_execute_instructions](/readme-img/dragonfly_archictecture_execute.png) <br />
+      ![dragonfly_arch_execute_instructions](/img/dragonfly_archictecture_execute.png) <br />
    <br />
    
    5. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
