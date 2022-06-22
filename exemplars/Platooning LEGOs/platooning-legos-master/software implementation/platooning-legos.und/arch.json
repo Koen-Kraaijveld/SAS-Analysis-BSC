@@ -1,0 +1,13 @@
+{
+    "ents": {
+        "@l./Vehicle 1 (leader)/vehicle-1.py": [
+            "Platooning LEGOs - Adaptation"
+        ],
+        "@l./Vehicle 2 (follower)/vehicle-2.py": [
+            "Platooning LEGOs - Adaptation"
+        ],
+        "@l./Vehicle 3 (follower)/vehicle-3.py": [
+            "Platooning LEGOs - Adaptation"
+        ]
+    }
+}

@@ -66,14 +66,14 @@ def calculate_maintainability(ent):
 def calculate_testability(ent):
     if is_method(ent):
         return {
-            "Testability": {
+            "Complexity": {
                 "Cyclomatic": get_metric_from_name(ent, "Cyclomatic"),
                 "Strict Cyclomatic": get_metric_from_name(ent, "CyclomaticStrict")
             }
         }
     elif is_class(ent):
         return {
-            "Testability": {
+            "Complexity": {
                 "Cyclomatic": get_metric_from_name(ent, "SumCyclomatic"),
                 "Strict Cyclomatic": get_metric_from_name(ent, "SumCyclomaticStrict")
             }
@@ -340,6 +340,8 @@ def calculate_local_control_radius(ent):
 
 
 def calculate_global_control_radius(ent):
+    metric = ent.metric(("CountStmtExe",))
+    print(ent.name() + " " + ent.kindname() + " " + str(metric))
     starting_global_control = get_metric_from_name(ent, "CountStmtExe")
     total_called_ent_names = collect_total_called_ent_names(ent)
     return starting_global_control + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")

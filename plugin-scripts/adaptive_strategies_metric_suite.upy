@@ -129,7 +129,7 @@ def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
     """
 
     print_tree_title(report, "Adaptive Strategies Metric Results (Architecture)", tree_depth)
-    arch_generate_concentration_of_control_tree(report, arch, tree_depth + 1)
+    arch_generate_concentration_of_impact_tree(report, arch, tree_depth + 1)
     arch_calculate_elementarity_tree(report, arch, tree_depth + 1)
 
     print_tree_title(report, "Adaptive Strategies Metric Results (Entity)", tree_depth + 1)
@@ -139,7 +139,7 @@ def arch_generate_adaptive_metrics_report(report, arch, tree_depth):
         method_generate_maintainability_tree(report, ent, tree_depth + 3)
 
 
-def arch_generate_concentration_of_control_tree(report, arch, tree_depth):
+def arch_generate_concentration_of_impact_tree(report, arch, tree_depth):
     """
     Runs the Concentration of Impact metrics on an architecture and displays their results.
 
@@ -148,7 +148,7 @@ def arch_generate_concentration_of_control_tree(report, arch, tree_depth):
         arch: architecture on which the metrics will run.
         tree_depth: current tree depth to manage at which level the dropdown trees will render.
     """
-    print_tree_title(report, "Concentration of Control", tree_depth, is_default_collapsed=1)
+    print_tree_title(report, "Concentration of Impact", tree_depth, is_default_collapsed=1)
     arch_calculate_decentralization_tree(report, arch, tree_depth + 1)
 
 
@@ -163,89 +163,89 @@ def arch_calculate_decentralization_tree(report, arch, tree_depth):
     """
     arch_children = arch.ents()
     ent_arr = []
-    ent_global_control_arr = []
+    ent_global_impact_arr = []
 
     for ent in arch_children:
-        global_control = calculate_global_control_for_method(report, ent)
+        global_impact = calculate_global_impact_for_method(report, ent)
         ent_arr.append({
             "ent": ent,
-            "control": global_control
+            "impact": global_impact
         })
-        ent_global_control_arr.append(global_control)
+        ent_global_impact_arr.append(global_impact)
 
     report.tree(tree_depth, 0)
     report.nobold()
-    print_line(report, "Global Control Radius Distribution", tree_depth)
+    print_line(report, "Global Impact Radius Distribution", tree_depth)
 
-    ent_arr = sorted(ent_arr, key=lambda d: d['control'], reverse=True)
-    summed_ent_global_control = sum(ent_global_control_arr)
+    ent_arr = sorted(ent_arr, key=lambda d: d['impact'], reverse=True)
+    summed_ent_global_impact = sum(ent_global_impact_arr)
 
-    ent_relative_control_arr = []
-    for i in range(0, len(ent_global_control_arr)):
-        ent_relative_control_arr.append(ent_global_control_arr[i] / summed_ent_global_control)
+    ent_relative_impact_arr = []
+    for i in range(0, len(ent_global_impact_arr)):
+        ent_relative_impact_arr.append(ent_global_impact_arr[i] / summed_ent_global_impact)
 
     for ent in ent_arr:
-        print_component_control(report, ent, summed_ent_global_control, tree_depth - 1)
+        print_component_impact(report, ent, summed_ent_global_impact, tree_depth - 1)
 
-    arch_calculate_control_decentralization_statistics(report, ent_arr, ent_relative_control_arr,
-                                                       summed_ent_global_control, tree_depth - 1)
+    arch_calculate_impact_decentralization_statistics(report, ent_arr, ent_relative_impact_arr,
+                                                       summed_ent_global_impact, tree_depth - 1)
 
 
-def arch_calculate_control_decentralization_statistics(report, ent_arr, ent_global_control_arr,
-                                                       summed_ent_global_control, tree_depth):
+def arch_calculate_impact_decentralization_statistics(report, ent_arr, ent_global_impact_arr,
+                                                       summed_ent_global_impact, tree_depth):
     """
-    Runs the Global Control Radius Statistics metrics and displays their results.
+    Runs the Global Impact Radius Statistics metrics and displays their results.
 
     Args:
         report: instance of the IReport.
         ent_arr: array containing the entities that the metric will run on.
-        ent_global_control_arr: array containing the Relative Global Impact Radius of each entity in the architecture.
-        summed_ent_global_control: summed value of the ent_global_control_arr array.
+        ent_global_impact_arr: array containing the Relative Global Impact Radius of each entity in the architecture.
+        summed_ent_global_impact: summed value of the ent_global_impact_arr array.
         tree_depth: current tree depth to manage at which level the dropdown trees will render.
     """
 
-    print_line(report, "Global Control Radius Statistics", tree_depth + 1, is_default_collapsed=1)
+    print_line(report, "Global Impact Radius Statistics", tree_depth + 1, is_default_collapsed=1)
 
     tree_depth += 1
     print_line(report, "Maximum", tree_depth + 1,
-               hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Maximum"],
+               hover_text=METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Statistics"]["Maximum"],
                is_default_collapsed=1)
-    print_component_control(report, ent_arr[0], summed_ent_global_control, tree_depth)
+    print_component_impact(report, ent_arr[0], summed_ent_global_impact, tree_depth)
 
     print_line(report, "Minimum", tree_depth + 1,
-               hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Minimum"])
-    print_component_control(report, ent_arr[len(ent_arr) - 1], summed_ent_global_control, tree_depth)
+               hover_text=METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Statistics"]["Minimum"])
+    print_component_impact(report, ent_arr[len(ent_arr) - 1], summed_ent_global_impact, tree_depth)
 
-    if len(ent_global_control_arr) >= 2:
-        mean = round(statistics.mean(ent_global_control_arr), 2)
-        print_mapped_line(report, "Mean", mean, tree_depth + 1,
-                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Mean"])
+    mean = round(statistics.mean(ent_global_impact_arr), 2)
+    print_mapped_line(report, "Mean", mean, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Statistics"]["Mean"])
 
-        median = round(statistics.median(ent_global_control_arr), 2)
-        print_mapped_line(report, "Median", median, tree_depth + 1,
-                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"]["Median"])
+    median = round(statistics.median(ent_global_impact_arr), 2)
+    print_mapped_line(report, "Median", median, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Statistics"]["Median"])
 
-        stdev = round(statistics.stdev(ent_global_control_arr), 2)
+    if len(ent_global_impact_arr) >= 2:
+        stdev = round(statistics.stdev(ent_global_impact_arr), 2)
         print_mapped_line(report, "Standard deviation", stdev, tree_depth + 1,
-                          hover_text=METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Statistics"][
+                          hover_text=METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Statistics"][
                               "StandardDeviation"])
 
 
-def print_component_control(report, ent, summed_ent_global_control, tree_depth):
+def print_component_impact(report, ent, summed_ent_global_impact, tree_depth):
     """
     Displays the Relative Global Impact Radius values in the IReport instance.
 
     Args:
         report: instance of the IReport.
         ent: entity to be displayed in the IReport.
-        summed_ent_global_control: summed value of the Relative Global Impact Radius of each entity in the architecture.
+        summed_ent_global_impact: summed value of the Relative Global Impact Radius of each entity in the architecture.
         tree_depth: current tree depth to manage at which level the dropdown trees will render.
     """
 
-    spread = round(ent["control"] / summed_ent_global_control, 2)
+    spread = round(ent["impact"] / summed_ent_global_impact, 2)
     print_ent_line(report, ent["ent"], tree_depth + 2)
     print_mapped_line(report, "Relative", spread, tree_depth + 3,
-                      METRIC_DESCRIPTION["GlobalControlRadiusDistribution"]["Relative"],
+                      METRIC_DESCRIPTION["GlobalImpactRadiusDistribution"]["Relative"],
                       is_default_collapsed=1)
 
 
@@ -555,10 +555,10 @@ def method_generate_locality_tree(report, ent, tree_depth, is_default_collapsed=
     """
 
     print_tree_title(report, "Locality", tree_depth, is_default_collapsed=is_default_collapsed)
-    method_calculate_control_radius(report, ent, tree_depth + 1)
+    method_calculate_impact_radius(report, ent, tree_depth + 1)
 
 
-def method_calculate_control_radius(report, ent, tree_depth):
+def method_calculate_impact_radius(report, ent, tree_depth):
     """
     Runs the Impact Radius metrics and displays their results.
 
@@ -567,15 +567,15 @@ def method_calculate_control_radius(report, ent, tree_depth):
         ent: entity on which the metrics will run.
         tree_depth: current tree depth to manage at which level the dropdown trees will render.
     """
-    print_tree_title(report, "Control Radius", tree_depth, is_default_collapsed=1)
+    print_tree_title(report, "Impact Radius", tree_depth, is_default_collapsed=1)
 
-    local_control = calculate_local_control_for_method(report, ent)
-    print_mapped_line(report, "Local", local_control, tree_depth + 1,
-                      hover_text=METRIC_DESCRIPTION["ControlRadius"]["Local"], is_default_collapsed=1)
+    local_impact = calculate_local_impact_for_method(report, ent)
+    print_mapped_line(report, "Local", local_impact, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["ImpactRadius"]["Local"], is_default_collapsed=1)
 
-    global_control = calculate_global_control_for_method(report, ent)
-    print_mapped_line(report, "Global", global_control, tree_depth + 1,
-                      hover_text=METRIC_DESCRIPTION["ControlRadius"]["Global"], is_default_collapsed=1)
+    global_impact = calculate_global_impact_for_method(report, ent)
+    print_mapped_line(report, "Global", global_impact, tree_depth + 1,
+                      hover_text=METRIC_DESCRIPTION["ImpactRadius"]["Global"], is_default_collapsed=1)
 
 
 # ===============================  UTILITIES  =============================== #
@@ -614,7 +614,7 @@ def sum_metrics_from_ent_array(ent_array, metric_name):
     return total
 
 
-def calculate_local_control_for_method(report, ent):
+def calculate_local_impact_for_method(report, ent):
     """
     Calculates the Local Impact Radius of a method.
     Args:
@@ -624,11 +624,11 @@ def calculate_local_control_for_method(report, ent):
     Returns: Local Impact Radius value.
 
     """
-    starting_local_control = get_metric_from_name(ent, "CountStmtExe")
+    starting_local_impact = get_metric_from_name(ent, "CountStmtExe")
 
     if not is_class(ent):
         first_level_called_ent_names = collect_called_func_names(ent, [])
-        return starting_local_control + sum_metrics_from_ent_array(first_level_called_ent_names, "CountStmtExe")
+        return starting_local_impact + sum_metrics_from_ent_array(first_level_called_ent_names, "CountStmtExe")
     else:
         class_funcs = collect_defined_class_funcs(ent)
 
@@ -644,10 +644,10 @@ def calculate_local_control_for_method(report, ent):
             class_func_called_arr.append(class_func)
             collect_called_func_names(class_func, class_func_called_arr)
 
-        return starting_local_control + sum_metrics_from_ent_array(class_func_called_arr, "CountStmtExe")
+        return starting_local_impact + sum_metrics_from_ent_array(class_func_called_arr, "CountStmtExe")
 
 
-def calculate_global_control_for_method(report, ent):
+def calculate_global_impact_for_method(report, ent):
     """
     Calculates the Global Impact Radius of a method.
     Args:
@@ -658,9 +658,9 @@ def calculate_global_control_for_method(report, ent):
 
     """
 
-    starting_global_control = get_metric_from_name(ent, "CountStmtExe")
+    starting_global_impact = get_metric_from_name(ent, "CountStmtExe")
     total_called_ent_names = collect_total_called_ent_names(report, ent)
-    return starting_global_control + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
+    return starting_global_impact + sum_metrics_from_ent_array(total_called_ent_names, "CountStmtExe")
 
 
 def sum(array):
@@ -1040,7 +1040,7 @@ def print_ent_line(report, ent, tree_depth, is_default_collapsed=0):
 # Dictionary used to store the metric description for when a user hovers their cursor over a metric in the IReport UI
 # box.
 METRIC_DESCRIPTION = {
-    "ControlRadius": {
+    "ImpactRadius": {
         "Local": "Number of directly reachable executable statements",
         "Global": "Number of reachable (direct or indirect) executable statements across the entire system"
     },
@@ -1053,17 +1053,17 @@ METRIC_DESCRIPTION = {
         "Coupling": "Number of other classes coupled to",
         "LackOfCohesion": "The percentage of class methods that do not use a class variable instance"
     },
-    "GlobalControlRadiusDistribution": {
-        "Relative": "The Global Control Radius relative to all other classes and functions in the same architecture",
+    "GlobalImpactRadiusDistribution": {
+        "Relative": "The Global Impact Radius relative to all other classes and functions in the same architecture",
         "Statistics": {
-            "Maximum": "The class or function with the maximum Relative Global Control Radius",
-            "Minimum": "The class or function with the minimum Relative Global Control Radius",
-            "Mean": "The mean of the architecture based on the contained class or function Relative Global Control "
+            "Maximum": "The class or function with the maximum Relative Global Impact Radius",
+            "Minimum": "The class or function with the minimum Relative Global Impact Radius",
+            "Mean": "The mean of the architecture based on the contained class or function Relative Global Impact "
                     "Radius",
-            "Median": "The median of the architecture based on the contained class or function Relative Global Control "
+            "Median": "The median of the architecture based on the contained class or function Relative Global Impact "
                       "Radius",
             "StandardDeviation": "The standard deviation of the architecture based on the contained class or "
-                                 "function Relative Global Control Radius "
+                                 "function Relative Global Impact Radius "
         }
     },
     "DependencyDegree": {

@@ -12,7 +12,7 @@ params = {'legend.fontsize': 'x-large',
 plt.rcParams.update(params)
 
 
-def graph_concentration_of_control_stats(data):
+def graph_concentration_of_impact_stats(data):
     pass
 
 
@@ -20,20 +20,20 @@ def graph_locality(data, exemplar_name):
     report = data["Adaptive Metrics Report"]
     ent_names = collect_dict_values_from_key(report, "Ent")
     locality = collect_dict_values_from_key(report, "Locality")
-    control_radius = collect_dict_values_from_key(locality, "ControlRadius")
+    impact_radius = collect_dict_values_from_key(locality, "ImpactRadius")
 
     fig, ax = plt.subplots(1, 1)
     cmap = plt.get_cmap("Paired")(np.arange(len(ent_names)))
 
-    plot_double_bar_chart(ax, ent_names, control_radius, "Local and Global Control Radius of each adaptive strategy in " + exemplar_name,
+    plot_double_bar_chart(ax, ent_names, impact_radius, "Local and Global Impact Radius of each adaptive strategy in " + exemplar_name,
                           "Number of reachable executable statements", True, cmap[0:2])
 
     plt.subplots_adjust(top=0.97, bottom=0.3)
     plt.show()
 
 
-def graph_concentration_control(data, exemplar_name):
-    spread = data["ConcentrationOfControl"]["Decentralization"]["Spread"]
+def graph_concentration_impact(data, exemplar_name):
+    spread = data["ConcentrationOfImpact"]["Decentralization"]["Spread"]
     if len(spread) == 0:
         return
 
@@ -55,7 +55,7 @@ def generate_relative_coc_pie_chart(labels, relative_values, absolute_values, te
     fig = plt.figure()
     cmap = plt.get_cmap("Dark2")(np.arange(len(labels)))
 
-    fig.suptitle("Relative Global Control Radius of each adaptive strategy in " + exemplar_name + " (%)")
+    fig.suptitle("Relative Global Impact Radius of each adaptive strategy in " + exemplar_name + " (%)")
     (ax1, ax2) = fig.subplots(1, 2)
     ax2.axis("equal")
     pie = ax2.pie(relative_values, labels=new_labels, startangle=0, autopct=generate_autopct(autopct_limit),
@@ -64,7 +64,7 @@ def generate_relative_coc_pie_chart(labels, relative_values, absolute_values, te
     ax1.axis("off")
     ax1.legend(pie[0], labels, loc="center left")
 
-    # sf2.suptitle("Absolute Global Control Radius of each adaptive strategy")
+    # sf2.suptitle("Absolute Global Impact Radius of each adaptive strategy")
     # ax3 = sf2.subplots(1, 1)
     # ax3.barh(labels, absolute_values, color=cmap)
     # ax3.yaxis.set_ticklabels([])
@@ -87,7 +87,7 @@ def generate_coc_pie_chart_and_bar_chart(labels, relative_values, absolute_value
     (sf1, sf2) = fig.subfigures(2, 1)
     cmap = plt.get_cmap("Dark2")(np.arange(len(labels)))
 
-    sf1.suptitle("Relative Global Control Radius of each adaptive strategy in " + exemplar_name + " (%)")
+    sf1.suptitle("Relative Global Impact Radius of each adaptive strategy in " + exemplar_name + " (%)")
     (ax1, ax2) = sf1.subplots(1, 2)
     ax2.axis("equal")
     pie = ax2.pie(relative_values, labels=new_labels, startangle=0, autopct=generate_autopct(autopct_limit),
@@ -96,7 +96,7 @@ def generate_coc_pie_chart_and_bar_chart(labels, relative_values, absolute_value
     ax1.axis("off")
     ax1.legend(pie[0], labels, loc="center left")
 
-    sf2.suptitle("Absolute Global Control Radius of each adaptive strategy")
+    sf2.suptitle("Absolute Global Impact Radius of each adaptive strategy")
     ax3 = sf2.subplots(1, 1)
     ax3.barh(labels, absolute_values, color=cmap)
     ax3.yaxis.set_ticklabels([])
@@ -110,6 +110,7 @@ def graph_dependency_degree(data, exemplar_name):
     report = data["Adaptive Metrics Report"]
     ent_names = collect_dict_values_from_key(report, "Ent")
     dependencies = collect_dict_values_from_key(report, "Dependencies")
+    print(dependencies)
 
     fig, ax = plt.subplots(1, 1)
     fig.subplots_adjust(hspace=0.5)
@@ -129,15 +130,15 @@ def graph_adaptive_testabiltiy(data, exemplar_name):
     ent_names = collect_dict_values_from_key(report, "Ent")
 
     maintainability = collect_dict_values_from_key(report, "Maintainability")
-    testability = collect_dict_values_from_key(maintainability, "Testability")
+    complexity = collect_dict_values_from_key(maintainability, "Complexity")
 
     fig, ax = plt.subplots(1, 1)
     fig.subplots_adjust(hspace=0.5)
 
     cmap = plt.get_cmap("Paired")(np.arange(14))
 
-    plot_double_bar_chart(ax, ent_names, testability,
-                          "Adaptive Testability of each adaptive in " + exemplar_name,
+    plot_double_bar_chart(ax, ent_names, complexity,
+                          "Adaptive Complexity of each adaptive in " + exemplar_name,
                           "Number of linearly independent paths through \n an adaptive strategy's control flow graph", True, cmap[4:6])
 
     plt.subplots_adjust(top=0.97, bottom=0.3)
@@ -148,10 +149,10 @@ def graph_adaptive_metrics_report(data):
     report = data["Adaptive Metrics Report"]
     ent_names = collect_dict_values_from_key(report, "Ent")
     locality = collect_dict_values_from_key(report, "Locality")
-    control_radius = collect_dict_values_from_key(locality, "ControlRadius")
+    impact_radius = collect_dict_values_from_key(locality, "ImpactRadius")
 
     maintainability = collect_dict_values_from_key(report, "Maintainability")
-    testability = collect_dict_values_from_key(maintainability, "Testability")
+    complexity = collect_dict_values_from_key(maintainability, "Complexity")
 
     dependencies = collect_dict_values_from_key(report, "Dependencies")
 
@@ -160,14 +161,14 @@ def graph_adaptive_metrics_report(data):
 
     cmap = plt.get_cmap("Paired")(np.arange(len(ent_names)))
 
-    plot_double_bar_chart(ax[0], ent_names, control_radius, "Local and Global Control Radius of each adaptive strategy",
+    plot_double_bar_chart(ax[0], ent_names, impact_radius, "Local and Global Impact Radius of each adaptive strategy",
                           "Number of reachable \n executable statements", False, cmap[0:2])
 
     plot_double_bar_chart(ax[1], ent_names, dependencies, "Dependencies of each adaptive strategy",
                           "Number of adaptive strategies \n that have a dependency \n on another adaptive strategy",
                           False, cmap[2:4])
 
-    plot_double_bar_chart(ax[2], ent_names, testability,
+    plot_double_bar_chart(ax[2], ent_names, complexity,
                           "Cyclomatic and Strict Cyclomatic complexity of each adaptive strategy",
                           "Complexity", True, cmap[4:6])
 

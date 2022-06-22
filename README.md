@@ -16,8 +16,6 @@ code analysis tool [Understand](https://licensing.scitools.com/download), which 
 code in order to access. Alternatively, a 30-day trial 
 version can also be downloaded.
 
-In addition to this, running the evaluation scripts requires Python 3.8.
-
 Installation
 ------------
 The following steps can be followed to ensure that the 
@@ -42,14 +40,14 @@ clicking on it will execute the plugin.
 In order to demonstrate the full capabilities of the plugin, 
 it is best to run it in its optimal environment. This can be 
 accomplished by reproducing the results from the thesis, 
-specifically by running the plugin on the ATRP and Dragonfly 
+specifically by running the plugin on the ATRP and TRAPP 
 exemplars. Follow the steps below to see how this is done.
 
 Reproducing the Results
 ------------
 After successfully installing the plugin, carry out the 
 following steps in order to reproduce the results from 
-when the plugin was run on ATRP and Dragonfly.
+when the plugin was run on ATRP and TRAPP.
 
 ### ATRP ###
 1. Open Understand.
@@ -62,7 +60,7 @@ when the plugin was run on ATRP and Dragonfly.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. See the screenshot below for further clarity.
     <br /> &nbsp;    
-      ![atrp_arch_execute_instructions](/img/atrp_archictecture_execute.png) <br />
+      ![atrp_arch_execute_instructions](/img/atrp-arch.png) <br />
     <br />
    4. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
 
@@ -74,18 +72,18 @@ when the plugin was run on ATRP and Dragonfly.
    4. Click on the ‘Adaptive Strategies Metric Suite’ option and the plugin should execute.
 
 
-### Dragonfly ###
+### TRAPP ###
 1. Open Understand.
 2. Go to File → Open → Project.
 3. Navigate to the directory that was cloned from this repository.
-4. From there, navigate to ```/exemplars/Dragonfly/Dragonfly-master/DragonFly-Project/src```.
-5. Open ```dragonfly.und``` by clicking on it.
+4. From there, navigate to ```/exemplars/TRAPP/TRAPP-master/app```.
+5. Open ```trapp.und``` by clicking on it.
 6. Follow these steps to run the plugin on the adaptive strategies architecture.
-   1. Open the Architecture Browser window by going to Architectures → Browse Architectures. There should already be an architecture there named Dragonfly Adaptive Strategies’.
+   1. Open the Architecture Browser window by going to Architectures → Browse Architectures. There should already be an architecture there named 'TRAPP Adaptive Strategies’.
    2. Right click on it and hover the cursor over the Interactive Reports option.
    3. The ‘Adaptive Strategies Metric Suite’ option should appear. Click on it and the plugin will execute. The screenshot belows provides additional clarity.
    <br /> &nbsp; 
-      ![dragonfly_arch_execute_instructions](/img/dragonfly_archictecture_execute.png) <br />
+      ![trapp-arch](/img/trapp-arch.png) <br />
    <br />
    
    5. A UI box should appear in the lower right (by default) titled ‘IReport - Adaptive Strategies Metric Suite’. This displays all the results from the execution of the plugin.
@@ -93,10 +91,10 @@ when the plugin was run on ATRP and Dragonfly.
 Running the Evaluation Scripts
 ------------
 In order to the run the evaluation and see the graphs 
-presented in the thesis, following the steps below (requires Python 3.8):
+presented in the thesis, following the steps below:
 1. Navigate to the directory that was cloned from this repository.
 2. From there, navigate to /plugin-scripts/evaluation.
-3. Run ```atrp_eval.py``` and ```dragonfly_eval.py``` to see the results for ATRP and Dragonfly, respectively.
+3. Run ```atrp_eval.py``` and ```trapp_eval.py``` to see the results for ATRP and TRAPP, respectively.
 4. The graphs should render in order of appearance.
 
 
