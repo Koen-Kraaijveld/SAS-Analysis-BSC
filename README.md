@@ -7,7 +7,10 @@ metric suite designed to measure the adaptive strategies of self-adaptive system
 from Understand will generate the corresponding results 
 computed by these metrics in an Interactive Report (IReport), 
 which is a feature supported by Understand to display the 
-results. 
+results.
+
+This repository has been submitted in conjunction with a thesis
+for the VU Bachelor of Science degree in Computer Science.
 
 Requirements
 ------------
@@ -102,6 +105,6 @@ Exemplars
 ------------
 1. [Dragonfly](https://github.com/DragonflyDrone/Dragonfly)
 2. [ATRP](https://github.com/brunyuriy/adasim)
-3. [UNDERSEA](https://drops.dagstuhl.de/opus/volltexte/2017/7141/)
-4. [Platooning LEGOs](https://zenodo.org/record/4604167)
+3. [UNDERSEA](https://github.com/gerasimou/UNDERSEA)
+4. [Platooning LEGOs](https://github.com/KAIST-SE-Lab/Platooning-LEGOs)
 5. [TRAPP](https://github.com/iliasger/TRAPP)
