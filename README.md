@@ -102,7 +102,6 @@ Exemplars
 ------------
 1. [Dragonfly](https://github.com/DragonflyDrone/Dragonfly)
 2. [ATRP](https://github.com/brunyuriy/adasim)
-3. [DARTSim](https://github.com/cps-sei/dartsim)
-4. [UNDERSEA](https://drops.dagstuhl.de/opus/volltexte/2017/7141/)
-5. [Platooning LEGOs](https://zenodo.org/record/4604167)
-6. [TRAPP](https://github.com/iliasger/TRAPP)
+3. [UNDERSEA](https://drops.dagstuhl.de/opus/volltexte/2017/7141/)
+4. [Platooning LEGOs](https://zenodo.org/record/4604167)
+5. [TRAPP](https://github.com/iliasger/TRAPP)
