@@ -1,1 +1,229 @@
-{"ConcentrationOfImpact": {"Decentralization": {"Spread": [{"Ent": "QLearningRoutingAlgorithm", "Relative": 0.350561797752809, "Absolute": 312}, {"Ent": "LookaheadShortestPathRoutingAlgorithm", "Relative": 0.2797752808988764, "Absolute": 249}, {"Ent": "AdaptiveRoutingAlgorithm", "Relative": 0.12022471910112359, "Absolute": 107}, {"Ent": "TrafficLookaheadRoutingAlgorithm", "Relative": 0.12022471910112359, "Absolute": 107}, {"Ent": "AlwaysRecomputeRoutingAlgorithm", "Relative": 0.12022471910112359, "Absolute": 107}, {"Ent": "AbstractRoutingAlgorithm", "Relative": 0.008988764044943821, "Absolute": 8}], "Statistics": {"Maximum": {"Ent": "QLearningRoutingAlgorithm", "Relative": 0.350561797752809, "Absolute": 312}, "Minimum": {"Ent": "AbstractRoutingAlgorithm", "Relative": 0.008988764044943821, "Absolute": 8}, "Variance": 12347.87, "StandardDeviation": 111.12}}}, "Elementarity": {"Tree": {"Function": [], "Class": [[{"Ent": "AbstractRoutingAlgorithm.java", "DependsOn": 0, "DependedOnBy": 5}, {"Ent": "LookaheadShortestPathRoutingAlgorithm.java", "DependsOn": 1, "DependedOnBy": 3}, {"Ent": "QLearningRoutingAlgorithm.java", "DependsOn": 1, "DependedOnBy": 0}, {"Ent": "TrafficLookaheadRoutingAlgorithm.java", "DependsOn": 2, "DependedOnBy": 0}, {"Ent": "AlwaysRecomputeRoutingAlgorithm.java", "DependsOn": 2, "DependedOnBy": 0}, {"Ent": "AdaptiveRoutingAlgorithm.java", "DependsOn": 2, "DependedOnBy": 0}]]}}, "Adaptive Metrics Report": [{"Ent": "AbstractRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 8, "Global": 8}}, "Maintainability": {"Complexity": {"Cyclomatic": 4, "Strict Cyclomatic": 4}, "Modifiability": {"Coupling": 4, "LackOfCohesion": 75}}, "Dependencies": {"Depends on": 0, "Depended on by": 5}}, {"Ent": "AdaptiveRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 60, "Global": 107}}, "Maintainability": {"Complexity": {"Cyclomatic": 1, "Strict Cyclomatic": 1}, "Modifiability": {"Coupling": 0, "LackOfCohesion": 0}}, "Dependencies": {"Depends on": 2, "Depended on by": 0}}, {"Ent": "LookaheadShortestPathRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 235, "Global": 249}}, "Maintainability": {"Complexity": {"Cyclomatic": 33, "Strict Cyclomatic": 36}, "Modifiability": {"Coupling": 13, "LackOfCohesion": 83}}, "Dependencies": {"Depends on": 1, "Depended on by": 3}}, {"Ent": "QLearningRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 312, "Global": 312}}, "Maintainability": {"Complexity": {"Cyclomatic": 48, "Strict Cyclomatic": 50}, "Modifiability": {"Coupling": 14, "LackOfCohesion": 84}}, "Dependencies": {"Depends on": 1, "Depended on by": 0}}, {"Ent": "TrafficLookaheadRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 60, "Global": 107}}, "Maintainability": {"Complexity": {"Cyclomatic": 1, "Strict Cyclomatic": 1}, "Modifiability": {"Coupling": 0, "LackOfCohesion": 0}}, "Dependencies": {"Depends on": 2, "Depended on by": 0}}, {"Ent": "AlwaysRecomputeRoutingAlgorithm", "Locality": {"ImpactRadius": {"Local": 60, "Global": 107}}, "Maintainability": {"Complexity": {"Cyclomatic": 1, "Strict Cyclomatic": 1}, "Modifiability": {"Coupling": 0, "LackOfCohesion": 0}}, "Dependencies": {"Depends on": 2, "Depended on by": 0}}]}
+{
+   "ConcentrationOfImpact": {
+      "Decentralization": {
+         "Spread": [
+            {
+               "Ent": "QLearningRoutingAlgorithm",
+               "Relative": 0.350561797752809,
+               "Absolute": 312
+            },
+            {
+               "Ent": "LookaheadShortestPathRoutingAlgorithm",
+               "Relative": 0.2797752808988764,
+               "Absolute": 249
+            },
+            {
+               "Ent": "AdaptiveRoutingAlgorithm",
+               "Relative": 0.12022471910112359,
+               "Absolute": 107
+            },
+            {
+               "Ent": "TrafficLookaheadRoutingAlgorithm",
+               "Relative": 0.12022471910112359,
+               "Absolute": 107
+            },
+            {
+               "Ent": "AlwaysRecomputeRoutingAlgorithm",
+               "Relative": 0.12022471910112359,
+               "Absolute": 107
+            },
+            {
+               "Ent": "AbstractRoutingAlgorithm",
+               "Relative": 0.008988764044943821,
+               "Absolute": 8
+            }
+         ],
+         "Statistics": {
+            "Maximum": {
+               "Ent": "QLearningRoutingAlgorithm",
+               "Relative": 0.350561797752809,
+               "Absolute": 312
+            },
+            "Minimum": {
+               "Ent": "AbstractRoutingAlgorithm",
+               "Relative": 0.008988764044943821,
+               "Absolute": 8
+            },
+            "Variance": 12347.87,
+            "StandardDeviation": 111.12
+         }
+      }
+   },
+   "Elementarity": {
+      "Tree": {
+         "Function": [],
+         "Class": [
+            [
+               {
+                  "Ent": "AbstractRoutingAlgorithm.java",
+                  "DependsOn": 0,
+                  "DependedOnBy": 5
+               },
+               {
+                  "Ent": "LookaheadShortestPathRoutingAlgorithm.java",
+                  "DependsOn": 1,
+                  "DependedOnBy": 3
+               },
+               {
+                  "Ent": "QLearningRoutingAlgorithm.java",
+                  "DependsOn": 1,
+                  "DependedOnBy": 0
+               },
+               {
+                  "Ent": "TrafficLookaheadRoutingAlgorithm.java",
+                  "DependsOn": 2,
+                  "DependedOnBy": 0
+               },
+               {
+                  "Ent": "AlwaysRecomputeRoutingAlgorithm.java",
+                  "DependsOn": 2,
+                  "DependedOnBy": 0
+               },
+               {
+                  "Ent": "AdaptiveRoutingAlgorithm.java",
+                  "DependsOn": 2,
+                  "DependedOnBy": 0
+               }
+            ]
+         ]
+      }
+   },
+   "Adaptive Metrics Report": [
+      {
+         "Ent": "AbstractRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 8,
+               "Global": 8
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 4,
+               "Strict Cyclomatic": 4
+            },
+            "Modifiability": {
+               "Coupling": 4,
+               "LackOfCohesion": 75
+            }
+         },
+         "Dependencies": {
+            "Depends on": 0,
+            "Depended on by": 5
+         }
+      },
+      {
+         "Ent": "AdaptiveRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 60,
+               "Global": 107
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 1,
+               "Strict Cyclomatic": 1
+            },
+            "Modifiability": {
+               "Coupling": 0,
+               "LackOfCohesion": 0}
+         },
+         "Dependencies": {
+            "Depends on": 2,
+            "Depended on by": 0
+         }
+      },
+      {
+         "Ent": "LookaheadShortestPathRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 235,
+               "Global": 249
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 33,
+               "Strict Cyclomatic": 36
+            },
+            "Modifiability": {
+               "Coupling": 13,
+               "LackOfCohesion": 83
+            }
+         },
+         "Dependencies": {
+            "Depends on": 1,
+            "Depended on by": 3
+         }
+      },
+      {
+         "Ent": "QLearningRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 312,
+               "Global": 312
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 48,
+               "Strict Cyclomatic": 50
+            },
+            "Modifiability": {
+               "Coupling": 14,
+               "LackOfCohesion": 84
+            }
+         },
+         "Dependencies": {
+            "Depends on": 1,
+            "Depended on by": 0
+         }
+      },
+      {
+         "Ent": "TrafficLookaheadRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 60,
+               "Global": 107
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 1,
+               "Strict Cyclomatic": 1
+            },
+            "Modifiability": {
+               "Coupling": 0,
+               "LackOfCohesion": 0
+            }
+         },
+         "Dependencies": {
+            "Depends on": 2,
+            "Depended on by": 0}
+      },
+      {
+         "Ent": "AlwaysRecomputeRoutingAlgorithm",
+         "Locality": {
+            "ImpactRadius": {
+               "Local": 60,
+               "Global": 107
+            }
+         },
+         "Maintainability": {
+            "Complexity": {
+               "Cyclomatic": 1,
+               "Strict Cyclomatic": 1
+            },
+            "Modifiability": {
+               "Coupling": 0,
+               "LackOfCohesion": 0
+            }
+         },
+         "Dependencies": {
+            "Depends on": 2,
+            "Depended on by": 0
+         }
+      }
+   ]
+}
