@@ -1,13 +1,8 @@
-import os
 
-os.add_dll_directory("C:\\Program Files\\SciTools\\bin\\pc-win64")
-
-import understand
 import json
 
-from metrics_plotter import graph_concentration_impact, graph_adaptive_metrics_report, graph_modifiability, \
-    graph_concentration_of_impact_stats, graph_locality, graph_dependency_degree, graph_adaptive_testabiltiy, \
-    graph_coupling, graph_lack_of_cohesion
+from metrics_plotter import graph_concentration_impact, graph_locality, graph_dependency_degree, \
+    graph_adaptive_testabiltiy, graph_coupling, graph_lack_of_cohesion
 
 
 def evaluate(data, exemplar_name, is_class_based):
