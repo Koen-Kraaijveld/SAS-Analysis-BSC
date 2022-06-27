@@ -488,22 +488,23 @@ def method_generate_maintainability_tree(report, ent, tree_depth):
     """
 
     print_tree_title(report, "Maintainability", tree_depth)
-    method_calculate_testability(report, ent, tree_depth + 1)
+    method_calculate_complexity(report, ent, tree_depth + 1)
 
     if is_class(ent):
         method_calculate_modifiability(report, ent, tree_depth + 1)
 
 
-def method_calculate_testability(report, ent, tree_depth):
+def method_calculate_complexity(report, ent, tree_depth):
     """
-    Runs the Adaptive Testability metrics and displays their results.
+    Runs the Adaptive Complexity metrics and displays their results.
+
     Args:
         report: instance of the IReport.
         ent: entity on which the metrics will run.
         tree_depth: current tree depth to manage at which level the dropdown trees will render.
     """
 
-    print_tree_title(report, "Testability", tree_depth)
+    print_tree_title(report, "Complexity", tree_depth)
 
     complexity_type = []
     if is_class(ent):
@@ -516,14 +517,15 @@ def method_calculate_testability(report, ent, tree_depth):
     test_case_min = get_metric_from_name(ent, complexity_type[0])
     test_case_max = get_metric_from_name(ent, complexity_type[1])
     print_mapped_line(report, "Cyclomatic Complexity", test_case_min, tree_depth + 1,
-                      METRIC_DESCRIPTION["Testability"]["Cyclomatic"], is_default_collapsed=1)
+                      METRIC_DESCRIPTION["Complexity"]["Cyclomatic"], is_default_collapsed=1)
     print_mapped_line(report, "Strict Cyclomatic Complexity", test_case_max, tree_depth + 1,
-                      METRIC_DESCRIPTION["Testability"]["StrictCyclomatic"], is_default_collapsed=1)
+                      METRIC_DESCRIPTION["Complexity"]["StrictCyclomatic"], is_default_collapsed=1)
 
 
 def method_calculate_modifiability(report, ent, tree_depth):
     """
     Runs the Adaptive Modifiability metrics and displays their results.
+
     Args:
         report: instance of the IReport.
         ent: entity on which the metrics will run.
@@ -1044,7 +1046,7 @@ METRIC_DESCRIPTION = {
         "Local": "Number of directly reachable executable statements",
         "Global": "Number of reachable (direct or indirect) executable statements across the entire system"
     },
-    "Testability": {
+    "Complexity": {
         "Cyclomatic": "Number of linearly independent paths through an entity’s control flow graph",
         "StrictCyclomatic": "Number of linearly independent paths through an entity’s control flow graph, including "
                             "permutations of conditional logical expressions "
