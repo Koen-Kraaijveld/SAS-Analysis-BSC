@@ -1,4 +1,3 @@
-
 import json
 
 from metrics_plotter import graph_concentration_impact, graph_locality, graph_dependency_degree, \
