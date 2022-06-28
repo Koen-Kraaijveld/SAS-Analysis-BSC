@@ -1,43 +1,43 @@
 {
    "ConcentrationOfImpact": {
-      "Decentralization": {
-         "Spread": [
-            {
-               "Ent": "TunePlanningResolution",
-               "Relative": 0.6561264822134387,
-               "Absolute": 166
-            },
-            {
-               "Ent": "AvoidOverLoadedStreets",
-               "Relative": 0.1976284584980237,
-               "Absolute": 50
-            },
-            {
-               "Ent": "LoadBalancing",
-               "Relative": 0.1067193675889328,
-               "Absolute": 27
-            },
-            {
-               "Ent": "Strategy",
-               "Relative": 0.039525691699604744,
-               "Absolute": 10
-            }
-         ],
-         "Statistics": {
-            "Maximum": {
-               "Ent": "TunePlanningResolution",
-               "Relative": 0.6561264822134387,
-               "Absolute": 166
-            },
-            "Minimum": {
-               "Ent": "Strategy",
-               "Relative": 0.039525691699604744,
-               "Absolute": 10
-            },
-            "Variance": 4960.92,
-            "StandardDeviation": 70.43
+      "Spread": [
+         {
+            "Ent": "TunePlanningResolution",
+            "Relative": 0.6561264822134387,
+            "Absolute": 166
+         },
+         {
+            "Ent": "AvoidOverLoadedStreets",
+            "Relative": 0.1976284584980237,
+            "Absolute": 50
+         },
+         {
+            "Ent": "LoadBalancing",
+            "Relative": 0.1067193675889328,
+            "Absolute": 27
+         },
+         {
+            "Ent": "Strategy",
+            "Relative": 0.039525691699604744,
+            "Absolute": 10
          }
+      ],
+      "Statistics": {
+         "Maximum": {
+            "Ent": "TunePlanningResolution",
+            "Relative": 0.6561264822134387,
+            "Absolute": 166
+         },
+         "Minimum": {
+            "Ent": "Strategy",
+            "Relative": 0.039525691699604744,
+            "Absolute": 10
+         },
+         "Mean": 0.25,
+         "Median": 0.15,
+         "StandardDeviation": 0.28
       }
+
    },
    "Elementarity": {
       "Tree": {

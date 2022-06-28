@@ -74,14 +74,12 @@ def generate_blank_data_template():
     """
     return {
         "ConcentrationOfImpact": {
-            "Decentralization": {
-                "Spread": [],
-                "Statistics": {}
-            }
+            "Spread": [],
+            "Statistics": {}
         },
         "Elementarity": {
             "Tree": {
-                "Function": [],
+                "Method": [],
                 "Class": []
             }
         },

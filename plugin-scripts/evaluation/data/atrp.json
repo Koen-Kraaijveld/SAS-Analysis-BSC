@@ -1,57 +1,56 @@
 {
    "ConcentrationOfImpact": {
-      "Decentralization": {
-         "Spread": [
-            {
-               "Ent": "QLearningRoutingAlgorithm",
-               "Relative": 0.350561797752809,
-               "Absolute": 312
-            },
-            {
-               "Ent": "LookaheadShortestPathRoutingAlgorithm",
-               "Relative": 0.2797752808988764,
-               "Absolute": 249
-            },
-            {
-               "Ent": "AdaptiveRoutingAlgorithm",
-               "Relative": 0.12022471910112359,
-               "Absolute": 107
-            },
-            {
-               "Ent": "TrafficLookaheadRoutingAlgorithm",
-               "Relative": 0.12022471910112359,
-               "Absolute": 107
-            },
-            {
-               "Ent": "AlwaysRecomputeRoutingAlgorithm",
-               "Relative": 0.12022471910112359,
-               "Absolute": 107
-            },
-            {
-               "Ent": "AbstractRoutingAlgorithm",
-               "Relative": 0.008988764044943821,
-               "Absolute": 8
-            }
-         ],
-         "Statistics": {
-            "Maximum": {
-               "Ent": "QLearningRoutingAlgorithm",
-               "Relative": 0.350561797752809,
-               "Absolute": 312
-            },
-            "Minimum": {
-               "Ent": "AbstractRoutingAlgorithm",
-               "Relative": 0.008988764044943821,
-               "Absolute": 8
-            },
-            "Variance": 12347.87,
-            "StandardDeviation": 111.12
+      "Spread": [
+         {
+            "Ent": "QLearningRoutingAlgorithm",
+            "Relative": 0.350561797752809,
+            "Absolute": 312
+         },
+         {
+            "Ent": "LookaheadShortestPathRoutingAlgorithm",
+            "Relative": 0.2797752808988764,
+            "Absolute": 249
+         },
+         {
+            "Ent": "AdaptiveRoutingAlgorithm",
+            "Relative": 0.12022471910112359,
+            "Absolute": 107
+         },
+         {
+            "Ent": "TrafficLookaheadRoutingAlgorithm",
+            "Relative": 0.12022471910112359,
+            "Absolute": 107
+         },
+         {
+            "Ent": "AlwaysRecomputeRoutingAlgorithm",
+            "Relative": 0.12022471910112359,
+            "Absolute": 107
+         },
+         {
+            "Ent": "AbstractRoutingAlgorithm",
+            "Relative": 0.008988764044943821,
+            "Absolute": 8
          }
+      ],
+      "Statistics": {
+         "Maximum": {
+            "Ent": "QLearningRoutingAlgorithm",
+            "Relative": 0.350561797752809,
+            "Absolute": 312
+         },
+         "Minimum": {
+            "Ent": "AbstractRoutingAlgorithm",
+            "Relative": 0.008988764044943821,
+            "Absolute": 8
+         },
+         "Mean": 0.17,
+         "Median": 0.12,
+         "StandardDeviation": 0.12
       }
    },
    "Elementarity": {
       "Tree": {
-         "Function": [],
+         "Method": [],
          "Class": [
             [
                {

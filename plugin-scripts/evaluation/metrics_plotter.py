@@ -43,7 +43,7 @@ def graph_concentration_impact(data, exemplar_name):
         exemplar_name: the name of the exemplar to be used in the graph's title and labels.
     """
 
-    spread = data["ConcentrationOfImpact"]["Decentralization"]["Spread"]
+    spread = data["ConcentrationOfImpact"]["Spread"]
     if len(spread) == 0:
         return
 
