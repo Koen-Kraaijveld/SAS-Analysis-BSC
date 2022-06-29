@@ -274,7 +274,7 @@ def arch_generate_elementarity_tree(report, arch, tree_depth):
         for i in range(0, len(elementarity_tree_method["final"])):
             print_line(report, f"Tree #{i + 1}", tree_depth + 2)
             print_arch_elementarity_tree(report, elementarity_tree_method["final"][i], tree_depth + 2)
-            print_line(report, "Information", tree_depth + 3)
+            print_line(report, "Dependencies", tree_depth + 3)
             arch_calculate_elementarity_tree_dependencies(report, elementarity_tree_method["final"][i], tree_depth + 3)
 
         if len(elementarity_tree_method["misc"]) > 0:
@@ -287,7 +287,7 @@ def arch_generate_elementarity_tree(report, arch, tree_depth):
         for i in range(0, len(elementarity_tree_class["final"])):
             print_line(report, f"Tree #{i + 1}", tree_depth + 2)
             print_arch_elementarity_tree(report, elementarity_tree_class["final"][i], tree_depth + 2)
-            print_line(report, "Information", tree_depth + 3)
+            print_line(report, "Dependencies", tree_depth + 3)
             arch_calculate_elementarity_tree_dependencies(report, elementarity_tree_class["final"][i], tree_depth + 3)
 
         if len(elementarity_tree_class["misc"]) > 0:
