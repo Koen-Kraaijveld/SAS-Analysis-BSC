@@ -9,9 +9,6 @@ computed by these metrics in an Interactive Report (IReport),
 which is a feature supported by Understand to display the 
 results.
 
-This repository has been submitted in conjunction with a thesis
-for the VU Bachelor of Science degree in Computer Science.
-
 Requirements
 ------------
 The plugin must be run through Scientific Toolwork’s static 
